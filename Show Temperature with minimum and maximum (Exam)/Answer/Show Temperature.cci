@@ -1,0 +1,11 @@
+VERSION:3 SOURCE_TIMESTAMP:5395086B
+NODE:I LEVEL:0 LINE:40 "E:\Programs\CodeVision\inc\mega32.h"
+NODE:I LEVEL:0 LINE:41 "E:\Programs\CodeVision\inc\delay.h"
+NODE:I LEVEL:0 LINE:42 "E:\Programs\CodeVision\inc\stdio.h"
+NODE:I LEVEL:0 LINE:47 "E:\Programs\CodeVision\inc\lcd.h"
+NODE:M LEVEL:0 LINE:50 "ADC_VREF_TYPE"
+NODE:V LEVEL:0 LINE:52 "temperature -> RAM:????"
+NODE:V LEVEL:0 LINE:53 "Buffer_LCD -> RAM:????"
+NODE:V LEVEL:0 LINE:54 "ADCInput -> R4,R5"
+NODE:F LEVEL:0 LINE:58 "read_adc(unsigned char adc_input)"
+NODE:F LEVEL:0 LINE:69 "main(void)"

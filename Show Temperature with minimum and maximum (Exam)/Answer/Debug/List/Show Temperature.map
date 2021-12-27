@@ -1,0 +1,48 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+temperature                                                                       0x02A2       4
+Buffer_LCD                                                                        0x02A6      16
+_base_y                                                                           0x02B6       4
+_seed                                                                             0x02BA       4
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+ADCInput                                                                          R4,R5        2
+_lcd_x                                                                            R7           1
+_lcd_y                                                                            R6           1
+_lcd_maxx                                                                         R9           1
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+read_adc                                                                          0x0009D     14
+main                                                                              0x000AB    147
+put_buff_G100                                                                     0x0013E     58
+_ftoe_G100                                                                        0x00178    210
+_print_G100                                                                       0x0024A    538
+sprintf                                                                           0x00464     52
+_lcd_delay_G101                                                                   0x00498      4
+_lcd_ready                                                                        0x0049C     17
+_lcd_write_nibble_G101                                                            0x004AD     10
+_lcd_write_data                                                                   0x004B7     15
+_lcd_read_nibble_G101                                                             0x004C6      9
+lcd_read_byte0_G101                                                               0x004CF      9
+lcd_gotoxy                                                                        0x004D8     16
+lcd_clear                                                                         0x004E8     19
+lcd_putchar                                                                       0x004FB     26
+lcd_puts                                                                          0x00515     17
+_long_delay_G101                                                                  0x00526      5
+_lcd_init_write_G101                                                              0x0052B     12
+lcd_init                                                                          0x00537     51
+strcpyf                                                                           0x0056A     13
+strlen                                                                            0x00577     12
+strlenf                                                                           0x00583     13
+ftrunc                                                                            0x00590     49
+floor                                                                             0x005C1     23
+ftoa                                                                              0x005D8    155

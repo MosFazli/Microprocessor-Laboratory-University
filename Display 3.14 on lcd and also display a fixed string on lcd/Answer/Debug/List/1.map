@@ -1,0 +1,45 @@
+RAM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+_base_y                                                                           0x0260       4
+_seed                                                                             0x0264       4
+
+EEPROM Allocation [bytes]
+Variable                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+
+Register Allocation
+Variable                                                                          Register  Size
+------------------------------------------------------------------------------------------------
+_lcd_x                                                                            R5           1
+_lcd_y                                                                            R4           1
+_lcd_maxx                                                                         R7           1
+
+FLASH Allocation [words]
+Function                                                                          Address   Size
+------------------------------------------------------------------------------------------------
+main                                                                              0x00086     79
+put_buff_G100                                                                     0x000D5     58
+_ftoe_G100                                                                        0x0010F    212
+_print_G100                                                                       0x001E3    538
+sprintf                                                                           0x003FD     52
+ftrunc                                                                            0x00431     49
+floor                                                                             0x00462     23
+_lcd_delay_G102                                                                   0x00479      4
+_lcd_ready                                                                        0x0047D     17
+_lcd_write_nibble_G102                                                            0x0048E     10
+_lcd_write_data                                                                   0x00498     15
+_lcd_read_nibble_G102                                                             0x004A7      9
+lcd_read_byte0_G102                                                               0x004B0      9
+lcd_gotoxy                                                                        0x004B9     16
+lcd_clear                                                                         0x004C9     19
+lcd_putchar                                                                       0x004DC     26
+lcd_puts                                                                          0x004F6     15
+lcd_putsf                                                                         0x00505     19
+_long_delay_G102                                                                  0x00518      5
+_lcd_init_write_G102                                                              0x0051D     12
+lcd_init                                                                          0x00529     51
+strcpyf                                                                           0x0055C     13
+strlen                                                                            0x00569     12
+strlenf                                                                           0x00575     13
+ftoa                                                                              0x00582    161

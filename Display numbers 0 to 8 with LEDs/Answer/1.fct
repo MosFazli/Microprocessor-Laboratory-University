@@ -1,0 +1,5 @@
+main DSTACK_USAGE:40 DSTACK_LEVEL:40 FILE:"DecToBinConverter.c" LINE:10
+lcd_putsf DSTACK_USAGE:3 DSTACK_LEVEL:43 FILE:"E:\Programs\CodeVision\lib\lcd.lib" LINE:217
+lcd_putchar DSTACK_USAGE:1 DSTACK_LEVEL:44 FILE:"E:\Programs\CodeVision\lib\lcd.lib" LINE:178
+lcd_gotoxy DSTACK_USAGE:2 DSTACK_LEVEL:46 FILE:"E:\Programs\CodeVision\lib\lcd.lib" LINE:158
+_lcd_write_data DSTACK_USAGE:1 DSTACK_LEVEL:47 FILE:"E:\Programs\CodeVision\lib\lcd.lib" LINE:77

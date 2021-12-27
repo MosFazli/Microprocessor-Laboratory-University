@@ -1,0 +1,8 @@
+VERSION:3 SOURCE_TIMESTAMP:5375BBC9
+NODE:I LEVEL:0 LINE:1 "E:\Programs\CodeVision\inc\mega32.h"
+NODE:I LEVEL:0 LINE:2 "E:\Programs\CodeVision\inc\delay.h"
+NODE:I LEVEL:0 LINE:3 "E:\Programs\CodeVision\inc\stdio.h"
+NODE:I LEVEL:0 LINE:7 "E:\Programs\CodeVision\inc\lcd.h"
+NODE:M LEVEL:0 LINE:8 "ADC_VREF_TYPE"
+NODE:F LEVEL:0 LINE:10 "read_adc(unsigned char adc_input)"
+NODE:F LEVEL:0 LINE:20 "main(void)"

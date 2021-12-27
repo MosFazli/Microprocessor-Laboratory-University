@@ -1,0 +1,7 @@
+VERSION:3 SOURCE_TIMESTAMP:5369A65B
+NODE:I LEVEL:0 LINE:1 "E:\Programs\CodeVision\inc\mega32.h"
+NODE:I LEVEL:0 LINE:2 "E:\Programs\CodeVision\inc\stdio.h"
+NODE:I LEVEL:0 LINE:3 "E:\Programs\CodeVision\inc\delay.h"
+NODE:I LEVEL:0 LINE:4 "E:\Programs\CodeVision\inc\math.h"
+NODE:I LEVEL:0 LINE:8 "E:\Programs\CodeVision\inc\lcd.h"
+NODE:F LEVEL:0 LINE:10 "main(void)"

@@ -1,0 +1,2680 @@
+
+AVRASM ver. 2.1.30  H:\University\Unit 5\Microprosessor\Exercise 1\2\Debug\List\1.asm Sun Oct 24 23:30:51 2021
+
+H:\University\Unit 5\Microprosessor\Exercise 1\2\Debug\List\1.asm(1088): warning: Register r5 already defined by the .DEF directive
+H:\University\Unit 5\Microprosessor\Exercise 1\2\Debug\List\1.asm(1089): warning: Register r4 already defined by the .DEF directive
+H:\University\Unit 5\Microprosessor\Exercise 1\2\Debug\List\1.asm(1090): warning: Register r7 already defined by the .DEF directive
+                 
+                 
+                 ;CodeVisionAVR C Compiler V3.12 Advanced
+                 ;(C) Copyright 1998-2014 Pavel Haiduc, HP InfoTech s.r.l.
+                 ;http://www.hpinfotech.com
+                 
+                 ;Build configuration    : Debug
+                 ;Chip type              : ATmega32
+                 ;Program type           : Application
+                 ;Clock frequency        : 8.000000 MHz
+                 ;Memory model           : Small
+                 ;Optimize for           : Size
+                 ;(s)printf features     : int, width
+                 ;(s)scanf features      : int, width
+                 ;External RAM size      : 0
+                 ;Data Stack size        : 512 byte(s)
+                 ;Heap size              : 0 byte(s)
+                 ;Promote 'char' to 'int': Yes
+                 ;'char' is unsigned     : Yes
+                 ;8 bit enums            : Yes
+                 ;Global 'const' stored in FLASH: Yes
+                 ;Enhanced function parameter passing: Yes
+                 ;Enhanced core instructions: On
+                 ;Automatic register allocation for global variables: On
+                 ;Smart register allocation: On
+                 
+                 	#define _MODEL_SMALL_
+                 
+                 	#pragma AVRPART ADMIN PART_NAME ATmega32
+                 	#pragma AVRPART MEMORY PROG_FLASH 32768
+                 	#pragma AVRPART MEMORY EEPROM 1024
+                 	#pragma AVRPART MEMORY INT_SRAM SIZE 2048
+                 	#pragma AVRPART MEMORY INT_SRAM START_ADDR 0x60
+                 
+                 	#define CALL_SUPPORTED 1
+                 
+                 	.LISTMAC
+                 	.EQU UDRE=0x5
+                 	.EQU RXC=0x7
+                 	.EQU USR=0xB
+                 	.EQU UDR=0xC
+                 	.EQU SPSR=0xE
+                 	.EQU SPDR=0xF
+                 	.EQU EERE=0x0
+                 	.EQU EEWE=0x1
+                 	.EQU EEMWE=0x2
+                 	.EQU EECR=0x1C
+                 	.EQU EEDR=0x1D
+                 	.EQU EEARL=0x1E
+                 	.EQU EEARH=0x1F
+                 	.EQU WDTCR=0x21
+                 	.EQU MCUCR=0x35
+                 	.EQU GICR=0x3B
+                 	.EQU SPL=0x3D
+                 	.EQU SPH=0x3E
+                 	.EQU SREG=0x3F
+                 
+                 	.DEF R0X0=R0
+                 	.DEF R0X1=R1
+                 	.DEF R0X2=R2
+                 	.DEF R0X3=R3
+                 	.DEF R0X4=R4
+                 	.DEF R0X5=R5
+                 	.DEF R0X6=R6
+                 	.DEF R0X7=R7
+                 	.DEF R0X8=R8
+                 	.DEF R0X9=R9
+                 	.DEF R0XA=R10
+                 	.DEF R0XB=R11
+                 	.DEF R0XC=R12
+                 	.DEF R0XD=R13
+                 	.DEF R0XE=R14
+                 	.DEF R0XF=R15
+                 	.DEF R0X10=R16
+                 	.DEF R0X11=R17
+                 	.DEF R0X12=R18
+                 	.DEF R0X13=R19
+                 	.DEF R0X14=R20
+                 	.DEF R0X15=R21
+                 	.DEF R0X16=R22
+                 	.DEF R0X17=R23
+                 	.DEF R0X18=R24
+                 	.DEF R0X19=R25
+                 	.DEF R0X1A=R26
+                 	.DEF R0X1B=R27
+                 	.DEF R0X1C=R28
+                 	.DEF R0X1D=R29
+                 	.DEF R0X1E=R30
+                 	.DEF R0X1F=R31
+                 
+                 	.EQU __SRAM_START=0x0060
+                 	.EQU __SRAM_END=0x085F
+                 	.EQU __DSTACK_SIZE=0x0200
+                 	.EQU __HEAP_SIZE=0x0000
+                 	.EQU __CLEAR_SRAM_SIZE=__SRAM_END-__SRAM_START+1
+                 
+                 	.MACRO __CPD1N
+                 	CPI  R30,LOW(@0)
+                 	LDI  R26,HIGH(@0)
+                 	CPC  R31,R26
+                 	LDI  R26,BYTE3(@0)
+                 	CPC  R22,R26
+                 	LDI  R26,BYTE4(@0)
+                 	CPC  R23,R26
+                 	.ENDM
+                 
+                 	.MACRO __CPD2N
+                 	CPI  R26,LOW(@0)
+                 	LDI  R30,HIGH(@0)
+                 	CPC  R27,R30
+                 	LDI  R30,BYTE3(@0)
+                 	CPC  R24,R30
+                 	LDI  R30,BYTE4(@0)
+                 	CPC  R25,R30
+                 	.ENDM
+                 
+                 	.MACRO __CPWRR
+                 	CP   R@0,R@2
+                 	CPC  R@1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __CPWRN
+                 	CPI  R@0,LOW(@2)
+                 	LDI  R30,HIGH(@2)
+                 	CPC  R@1,R30
+                 	.ENDM
+                 
+                 	.MACRO __ADDB1MN
+                 	SUBI R30,LOW(-@0-(@1))
+                 	.ENDM
+                 
+                 	.MACRO __ADDB2MN
+                 	SUBI R26,LOW(-@0-(@1))
+                 	.ENDM
+                 
+                 	.MACRO __ADDW1MN
+                 	SUBI R30,LOW(-@0-(@1))
+                 	SBCI R31,HIGH(-@0-(@1))
+                 	.ENDM
+                 
+                 	.MACRO __ADDW2MN
+                 	SUBI R26,LOW(-@0-(@1))
+                 	SBCI R27,HIGH(-@0-(@1))
+                 	.ENDM
+                 
+                 	.MACRO __ADDW1FN
+                 	SUBI R30,LOW(-2*@0-(@1))
+                 	SBCI R31,HIGH(-2*@0-(@1))
+                 	.ENDM
+                 
+                 	.MACRO __ADDD1FN
+                 	SUBI R30,LOW(-2*@0-(@1))
+                 	SBCI R31,HIGH(-2*@0-(@1))
+                 	SBCI R22,BYTE3(-2*@0-(@1))
+                 	.ENDM
+                 
+                 	.MACRO __ADDD1N
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	SBCI R22,BYTE3(-@0)
+                 	SBCI R23,BYTE4(-@0)
+                 	.ENDM
+                 
+                 	.MACRO __ADDD2N
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	SBCI R24,BYTE3(-@0)
+                 	SBCI R25,BYTE4(-@0)
+                 	.ENDM
+                 
+                 	.MACRO __SUBD1N
+                 	SUBI R30,LOW(@0)
+                 	SBCI R31,HIGH(@0)
+                 	SBCI R22,BYTE3(@0)
+                 	SBCI R23,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __SUBD2N
+                 	SUBI R26,LOW(@0)
+                 	SBCI R27,HIGH(@0)
+                 	SBCI R24,BYTE3(@0)
+                 	SBCI R25,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __ANDBMNN
+                 	LDS  R30,@0+(@1)
+                 	ANDI R30,LOW(@2)
+                 	STS  @0+(@1),R30
+                 	.ENDM
+                 
+                 	.MACRO __ANDWMNN
+                 	LDS  R30,@0+(@1)
+                 	ANDI R30,LOW(@2)
+                 	STS  @0+(@1),R30
+                 	LDS  R30,@0+(@1)+1
+                 	ANDI R30,HIGH(@2)
+                 	STS  @0+(@1)+1,R30
+                 	.ENDM
+                 
+                 	.MACRO __ANDD1N
+                 	ANDI R30,LOW(@0)
+                 	ANDI R31,HIGH(@0)
+                 	ANDI R22,BYTE3(@0)
+                 	ANDI R23,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __ANDD2N
+                 	ANDI R26,LOW(@0)
+                 	ANDI R27,HIGH(@0)
+                 	ANDI R24,BYTE3(@0)
+                 	ANDI R25,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __ORBMNN
+                 	LDS  R30,@0+(@1)
+                 	ORI  R30,LOW(@2)
+                 	STS  @0+(@1),R30
+                 	.ENDM
+                 
+                 	.MACRO __ORWMNN
+                 	LDS  R30,@0+(@1)
+                 	ORI  R30,LOW(@2)
+                 	STS  @0+(@1),R30
+                 	LDS  R30,@0+(@1)+1
+                 	ORI  R30,HIGH(@2)
+                 	STS  @0+(@1)+1,R30
+                 	.ENDM
+                 
+                 	.MACRO __ORD1N
+                 	ORI  R30,LOW(@0)
+                 	ORI  R31,HIGH(@0)
+                 	ORI  R22,BYTE3(@0)
+                 	ORI  R23,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __ORD2N
+                 	ORI  R26,LOW(@0)
+                 	ORI  R27,HIGH(@0)
+                 	ORI  R24,BYTE3(@0)
+                 	ORI  R25,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __DELAY_USB
+                 	LDI  R24,LOW(@0)
+                 __DELAY_USB_LOOP:
+                 	DEC  R24
+                 	BRNE __DELAY_USB_LOOP
+                 	.ENDM
+                 
+                 	.MACRO __DELAY_USW
+                 	LDI  R24,LOW(@0)
+                 	LDI  R25,HIGH(@0)
+                 __DELAY_USW_LOOP:
+                 	SBIW R24,1
+                 	BRNE __DELAY_USW_LOOP
+                 	.ENDM
+                 
+                 	.MACRO __GETD1S
+                 	LDD  R30,Y+@0
+                 	LDD  R31,Y+@0+1
+                 	LDD  R22,Y+@0+2
+                 	LDD  R23,Y+@0+3
+                 	.ENDM
+                 
+                 	.MACRO __GETD2S
+                 	LDD  R26,Y+@0
+                 	LDD  R27,Y+@0+1
+                 	LDD  R24,Y+@0+2
+                 	LDD  R25,Y+@0+3
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1S
+                 	STD  Y+@0,R30
+                 	STD  Y+@0+1,R31
+                 	STD  Y+@0+2,R22
+                 	STD  Y+@0+3,R23
+                 	.ENDM
+                 
+                 	.MACRO __PUTD2S
+                 	STD  Y+@0,R26
+                 	STD  Y+@0+1,R27
+                 	STD  Y+@0+2,R24
+                 	STD  Y+@0+3,R25
+                 	.ENDM
+                 
+                 	.MACRO __PUTDZ2
+                 	STD  Z+@0,R26
+                 	STD  Z+@0+1,R27
+                 	STD  Z+@0+2,R24
+                 	STD  Z+@0+3,R25
+                 	.ENDM
+                 
+                 	.MACRO __CLRD1S
+                 	STD  Y+@0,R30
+                 	STD  Y+@0+1,R30
+                 	STD  Y+@0+2,R30
+                 	STD  Y+@0+3,R30
+                 	.ENDM
+                 
+                 	.MACRO __POINTB1MN
+                 	LDI  R30,LOW(@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTW1MN
+                 	LDI  R30,LOW(@0+(@1))
+                 	LDI  R31,HIGH(@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTD1M
+                 	LDI  R30,LOW(@0)
+                 	LDI  R31,HIGH(@0)
+                 	LDI  R22,BYTE3(@0)
+                 	LDI  R23,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __POINTW1FN
+                 	LDI  R30,LOW(2*@0+(@1))
+                 	LDI  R31,HIGH(2*@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTD1FN
+                 	LDI  R30,LOW(2*@0+(@1))
+                 	LDI  R31,HIGH(2*@0+(@1))
+                 	LDI  R22,BYTE3(2*@0+(@1))
+                 	LDI  R23,BYTE4(2*@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTB2MN
+                 	LDI  R26,LOW(@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTW2MN
+                 	LDI  R26,LOW(@0+(@1))
+                 	LDI  R27,HIGH(@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTW2FN
+                 	LDI  R26,LOW(2*@0+(@1))
+                 	LDI  R27,HIGH(2*@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTD2FN
+                 	LDI  R26,LOW(2*@0+(@1))
+                 	LDI  R27,HIGH(2*@0+(@1))
+                 	LDI  R24,BYTE3(2*@0+(@1))
+                 	LDI  R25,BYTE4(2*@0+(@1))
+                 	.ENDM
+                 
+                 	.MACRO __POINTBRM
+                 	LDI  R@0,LOW(@1)
+                 	.ENDM
+                 
+                 	.MACRO __POINTWRM
+                 	LDI  R@0,LOW(@2)
+                 	LDI  R@1,HIGH(@2)
+                 	.ENDM
+                 
+                 	.MACRO __POINTBRMN
+                 	LDI  R@0,LOW(@1+(@2))
+                 	.ENDM
+                 
+                 	.MACRO __POINTWRMN
+                 	LDI  R@0,LOW(@2+(@3))
+                 	LDI  R@1,HIGH(@2+(@3))
+                 	.ENDM
+                 
+                 	.MACRO __POINTWRFN
+                 	LDI  R@0,LOW(@2*2+(@3))
+                 	LDI  R@1,HIGH(@2*2+(@3))
+                 	.ENDM
+                 
+                 	.MACRO __GETD1N
+                 	LDI  R30,LOW(@0)
+                 	LDI  R31,HIGH(@0)
+                 	LDI  R22,BYTE3(@0)
+                 	LDI  R23,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __GETD2N
+                 	LDI  R26,LOW(@0)
+                 	LDI  R27,HIGH(@0)
+                 	LDI  R24,BYTE3(@0)
+                 	LDI  R25,BYTE4(@0)
+                 	.ENDM
+                 
+                 	.MACRO __GETB1MN
+                 	LDS  R30,@0+(@1)
+                 	.ENDM
+                 
+                 	.MACRO __GETB1HMN
+                 	LDS  R31,@0+(@1)
+                 	.ENDM
+                 
+                 	.MACRO __GETW1MN
+                 	LDS  R30,@0+(@1)
+                 	LDS  R31,@0+(@1)+1
+                 	.ENDM
+                 
+                 	.MACRO __GETD1MN
+                 	LDS  R30,@0+(@1)
+                 	LDS  R31,@0+(@1)+1
+                 	LDS  R22,@0+(@1)+2
+                 	LDS  R23,@0+(@1)+3
+                 	.ENDM
+                 
+                 	.MACRO __GETBRMN
+                 	LDS  R@0,@1+(@2)
+                 	.ENDM
+                 
+                 	.MACRO __GETWRMN
+                 	LDS  R@0,@2+(@3)
+                 	LDS  R@1,@2+(@3)+1
+                 	.ENDM
+                 
+                 	.MACRO __GETWRZ
+                 	LDD  R@0,Z+@2
+                 	LDD  R@1,Z+@2+1
+                 	.ENDM
+                 
+                 	.MACRO __GETD2Z
+                 	LDD  R26,Z+@0
+                 	LDD  R27,Z+@0+1
+                 	LDD  R24,Z+@0+2
+                 	LDD  R25,Z+@0+3
+                 	.ENDM
+                 
+                 	.MACRO __GETB2MN
+                 	LDS  R26,@0+(@1)
+                 	.ENDM
+                 
+                 	.MACRO __GETW2MN
+                 	LDS  R26,@0+(@1)
+                 	LDS  R27,@0+(@1)+1
+                 	.ENDM
+                 
+                 	.MACRO __GETD2MN
+                 	LDS  R26,@0+(@1)
+                 	LDS  R27,@0+(@1)+1
+                 	LDS  R24,@0+(@1)+2
+                 	LDS  R25,@0+(@1)+3
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1MN
+                 	STS  @0+(@1),R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1MN
+                 	STS  @0+(@1),R30
+                 	STS  @0+(@1)+1,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1MN
+                 	STS  @0+(@1),R30
+                 	STS  @0+(@1)+1,R31
+                 	STS  @0+(@1)+2,R22
+                 	STS  @0+(@1)+3,R23
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1EN
+                 	LDI  R26,LOW(@0+(@1))
+                 	LDI  R27,HIGH(@0+(@1))
+                 	CALL __EEPROMWRB
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1EN
+                 	LDI  R26,LOW(@0+(@1))
+                 	LDI  R27,HIGH(@0+(@1))
+                 	CALL __EEPROMWRW
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1EN
+                 	LDI  R26,LOW(@0+(@1))
+                 	LDI  R27,HIGH(@0+(@1))
+                 	CALL __EEPROMWRD
+                 	.ENDM
+                 
+                 	.MACRO __PUTBR0MN
+                 	STS  @0+(@1),R0
+                 	.ENDM
+                 
+                 	.MACRO __PUTBMRN
+                 	STS  @0+(@1),R@2
+                 	.ENDM
+                 
+                 	.MACRO __PUTWMRN
+                 	STS  @0+(@1),R@2
+                 	STS  @0+(@1)+1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __PUTBZR
+                 	STD  Z+@1,R@0
+                 	.ENDM
+                 
+                 	.MACRO __PUTWZR
+                 	STD  Z+@2,R@0
+                 	STD  Z+@2+1,R@1
+                 	.ENDM
+                 
+                 	.MACRO __GETW1R
+                 	MOV  R30,R@0
+                 	MOV  R31,R@1
+                 	.ENDM
+                 
+                 	.MACRO __GETW2R
+                 	MOV  R26,R@0
+                 	MOV  R27,R@1
+                 	.ENDM
+                 
+                 	.MACRO __GETWRN
+                 	LDI  R@0,LOW(@2)
+                 	LDI  R@1,HIGH(@2)
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1R
+                 	MOV  R@0,R30
+                 	MOV  R@1,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTW2R
+                 	MOV  R@0,R26
+                 	MOV  R@1,R27
+                 	.ENDM
+                 
+                 	.MACRO __ADDWRN
+                 	SUBI R@0,LOW(-@2)
+                 	SBCI R@1,HIGH(-@2)
+                 	.ENDM
+                 
+                 	.MACRO __ADDWRR
+                 	ADD  R@0,R@2
+                 	ADC  R@1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __SUBWRN
+                 	SUBI R@0,LOW(@2)
+                 	SBCI R@1,HIGH(@2)
+                 	.ENDM
+                 
+                 	.MACRO __SUBWRR
+                 	SUB  R@0,R@2
+                 	SBC  R@1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __ANDWRN
+                 	ANDI R@0,LOW(@2)
+                 	ANDI R@1,HIGH(@2)
+                 	.ENDM
+                 
+                 	.MACRO __ANDWRR
+                 	AND  R@0,R@2
+                 	AND  R@1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __ORWRN
+                 	ORI  R@0,LOW(@2)
+                 	ORI  R@1,HIGH(@2)
+                 	.ENDM
+                 
+                 	.MACRO __ORWRR
+                 	OR   R@0,R@2
+                 	OR   R@1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __EORWRR
+                 	EOR  R@0,R@2
+                 	EOR  R@1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __GETWRS
+                 	LDD  R@0,Y+@2
+                 	LDD  R@1,Y+@2+1
+                 	.ENDM
+                 
+                 	.MACRO __PUTBSR
+                 	STD  Y+@1,R@0
+                 	.ENDM
+                 
+                 	.MACRO __PUTWSR
+                 	STD  Y+@2,R@0
+                 	STD  Y+@2+1,R@1
+                 	.ENDM
+                 
+                 	.MACRO __MOVEWRR
+                 	MOV  R@0,R@2
+                 	MOV  R@1,R@3
+                 	.ENDM
+                 
+                 	.MACRO __INWR
+                 	IN   R@0,@2
+                 	IN   R@1,@2+1
+                 	.ENDM
+                 
+                 	.MACRO __OUTWR
+                 	OUT  @2+1,R@1
+                 	OUT  @2,R@0
+                 	.ENDM
+                 
+                 	.MACRO __CALL1MN
+                 	LDS  R30,@0+(@1)
+                 	LDS  R31,@0+(@1)+1
+                 	ICALL
+                 	.ENDM
+                 
+                 	.MACRO __CALL1FN
+                 	LDI  R30,LOW(2*@0+(@1))
+                 	LDI  R31,HIGH(2*@0+(@1))
+                 	CALL __GETW1PF
+                 	ICALL
+                 	.ENDM
+                 
+                 	.MACRO __CALL2EN
+                 	PUSH R26
+                 	PUSH R27
+                 	LDI  R26,LOW(@0+(@1))
+                 	LDI  R27,HIGH(@0+(@1))
+                 	CALL __EEPROMRDW
+                 	POP  R27
+                 	POP  R26
+                 	ICALL
+                 	.ENDM
+                 
+                 	.MACRO __CALL2EX
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	CALL __EEPROMRDD
+                 	ICALL
+                 	.ENDM
+                 
+                 	.MACRO __GETW1STACK
+                 	IN   R30,SPL
+                 	IN   R31,SPH
+                 	ADIW R30,@0+1
+                 	LD   R0,Z+
+                 	LD   R31,Z
+                 	MOV  R30,R0
+                 	.ENDM
+                 
+                 	.MACRO __GETD1STACK
+                 	IN   R30,SPL
+                 	IN   R31,SPH
+                 	ADIW R30,@0+1
+                 	LD   R0,Z+
+                 	LD   R1,Z+
+                 	LD   R22,Z
+                 	MOVW R30,R0
+                 	.ENDM
+                 
+                 	.MACRO __NBST
+                 	BST  R@0,@1
+                 	IN   R30,SREG
+                 	LDI  R31,0x40
+                 	EOR  R30,R31
+                 	OUT  SREG,R30
+                 	.ENDM
+                 
+                 
+                 	.MACRO __PUTB1SN
+                 	LDD  R26,Y+@0
+                 	LDD  R27,Y+@0+1
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1SN
+                 	LDD  R26,Y+@0
+                 	LDD  R27,Y+@0+1
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1SN
+                 	LDD  R26,Y+@0
+                 	LDD  R27,Y+@0+1
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1SNS
+                 	LDD  R26,Y+@0
+                 	LDD  R27,Y+@0+1
+                 	ADIW R26,@1
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1SNS
+                 	LDD  R26,Y+@0
+                 	LDD  R27,Y+@0+1
+                 	ADIW R26,@1
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1SNS
+                 	LDD  R26,Y+@0
+                 	LDD  R27,Y+@0+1
+                 	ADIW R26,@1
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1PMN
+                 	LDS  R26,@0
+                 	LDS  R27,@0+1
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1PMN
+                 	LDS  R26,@0
+                 	LDS  R27,@0+1
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1PMN
+                 	LDS  R26,@0
+                 	LDS  R27,@0+1
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1PMNS
+                 	LDS  R26,@0
+                 	LDS  R27,@0+1
+                 	ADIW R26,@1
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1PMNS
+                 	LDS  R26,@0
+                 	LDS  R27,@0+1
+                 	ADIW R26,@1
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1PMNS
+                 	LDS  R26,@0
+                 	LDS  R27,@0+1
+                 	ADIW R26,@1
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1RN
+                 	MOVW R26,R@0
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1RN
+                 	MOVW R26,R@0
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1RN
+                 	MOVW R26,R@0
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1RNS
+                 	MOVW R26,R@0
+                 	ADIW R26,@1
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1RNS
+                 	MOVW R26,R@0
+                 	ADIW R26,@1
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1RNS
+                 	MOVW R26,R@0
+                 	ADIW R26,@1
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1RON
+                 	MOV  R26,R@0
+                 	MOV  R27,R@1
+                 	SUBI R26,LOW(-@2)
+                 	SBCI R27,HIGH(-@2)
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1RON
+                 	MOV  R26,R@0
+                 	MOV  R27,R@1
+                 	SUBI R26,LOW(-@2)
+                 	SBCI R27,HIGH(-@2)
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1RON
+                 	MOV  R26,R@0
+                 	MOV  R27,R@1
+                 	SUBI R26,LOW(-@2)
+                 	SBCI R27,HIGH(-@2)
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1RONS
+                 	MOV  R26,R@0
+                 	MOV  R27,R@1
+                 	ADIW R26,@2
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1RONS
+                 	MOV  R26,R@0
+                 	MOV  R27,R@1
+                 	ADIW R26,@2
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1RONS
+                 	MOV  R26,R@0
+                 	MOV  R27,R@1
+                 	ADIW R26,@2
+                 	CALL __PUTDP1
+                 	.ENDM
+                 
+                 
+                 	.MACRO __GETB1SX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	LD   R30,Z
+                 	.ENDM
+                 
+                 	.MACRO __GETB1HSX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	LD   R31,Z
+                 	.ENDM
+                 
+                 	.MACRO __GETW1SX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	LD   R0,Z+
+                 	LD   R31,Z
+                 	MOV  R30,R0
+                 	.ENDM
+                 
+                 	.MACRO __GETD1SX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	LD   R0,Z+
+                 	LD   R1,Z+
+                 	LD   R22,Z+
+                 	LD   R23,Z
+                 	MOVW R30,R0
+                 	.ENDM
+                 
+                 	.MACRO __GETB2SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	LD   R26,X
+                 	.ENDM
+                 
+                 	.MACRO __GETW2SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	LD   R0,X+
+                 	LD   R27,X
+                 	MOV  R26,R0
+                 	.ENDM
+                 
+                 	.MACRO __GETD2SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	LD   R0,X+
+                 	LD   R1,X+
+                 	LD   R24,X+
+                 	LD   R25,X
+                 	MOVW R26,R0
+                 	.ENDM
+                 
+                 	.MACRO __GETBRSX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@1)
+                 	SBCI R31,HIGH(-@1)
+                 	LD   R@0,Z
+                 	.ENDM
+                 
+                 	.MACRO __GETWRSX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@2)
+                 	SBCI R31,HIGH(-@2)
+                 	LD   R@0,Z+
+                 	LD   R@1,Z
+                 	.ENDM
+                 
+                 	.MACRO __GETBRSX2
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	LD   R@0,X
+                 	.ENDM
+                 
+                 	.MACRO __GETWRSX2
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@2)
+                 	SBCI R27,HIGH(-@2)
+                 	LD   R@0,X+
+                 	LD   R@1,X
+                 	.ENDM
+                 
+                 	.MACRO __LSLW8SX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	LD   R31,Z
+                 	CLR  R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	ST   X+,R30
+                 	ST   X+,R31
+                 	ST   X+,R22
+                 	ST   X,R23
+                 	.ENDM
+                 
+                 	.MACRO __CLRW1SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	ST   X+,R30
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __CLRD1SX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	ST   X+,R30
+                 	ST   X+,R30
+                 	ST   X+,R30
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTB2SX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	ST   Z,R26
+                 	.ENDM
+                 
+                 	.MACRO __PUTW2SX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	ST   Z+,R26
+                 	ST   Z,R27
+                 	.ENDM
+                 
+                 	.MACRO __PUTD2SX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@0)
+                 	SBCI R31,HIGH(-@0)
+                 	ST   Z+,R26
+                 	ST   Z+,R27
+                 	ST   Z+,R24
+                 	ST   Z,R25
+                 	.ENDM
+                 
+                 	.MACRO __PUTBSRX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@1)
+                 	SBCI R31,HIGH(-@1)
+                 	ST   Z,R@0
+                 	.ENDM
+                 
+                 	.MACRO __PUTWSRX
+                 	MOVW R30,R28
+                 	SUBI R30,LOW(-@2)
+                 	SBCI R31,HIGH(-@2)
+                 	ST   Z+,R@0
+                 	ST   Z,R@1
+                 	.ENDM
+                 
+                 	.MACRO __PUTB1SNX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	LD   R0,X+
+                 	LD   R27,X
+                 	MOV  R26,R0
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X,R30
+                 	.ENDM
+                 
+                 	.MACRO __PUTW1SNX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	LD   R0,X+
+                 	LD   R27,X
+                 	MOV  R26,R0
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X+,R30
+                 	ST   X,R31
+                 	.ENDM
+                 
+                 	.MACRO __PUTD1SNX
+                 	MOVW R26,R28
+                 	SUBI R26,LOW(-@0)
+                 	SBCI R27,HIGH(-@0)
+                 	LD   R0,X+
+                 	LD   R27,X
+                 	MOV  R26,R0
+                 	SUBI R26,LOW(-@1)
+                 	SBCI R27,HIGH(-@1)
+                 	ST   X+,R30
+                 	ST   X+,R31
+                 	ST   X+,R22
+                 	ST   X,R23
+                 	.ENDM
+                 
+                 	.MACRO __MULBRR
+                 	MULS R@0,R@1
+                 	MOVW R30,R0
+                 	.ENDM
+                 
+                 	.MACRO __MULBRRU
+                 	MUL  R@0,R@1
+                 	MOVW R30,R0
+                 	.ENDM
+                 
+                 	.MACRO __MULBRR0
+                 	MULS R@0,R@1
+                 	.ENDM
+                 
+                 	.MACRO __MULBRRU0
+                 	MUL  R@0,R@1
+                 	.ENDM
+                 
+                 	.MACRO __MULBNWRU
+                 	LDI  R26,@2
+                 	MUL  R26,R@0
+                 	MOVW R30,R0
+                 	MUL  R26,R@1
+                 	ADD  R31,R0
+                 	.ENDM
+                 
+                 ;NAME DEFINITIONS FOR GLOBAL VARIABLES ALLOCATED TO REGISTERS
+                 	.DEF __lcd_x=R5
+                 	.DEF __lcd_y=R4
+                 	.DEF __lcd_maxx=R7
+                 
+                 	.CSEG
+                 	.ORG 0x00
+                 
+                 ;START OF CODE MARKER
+                 __START_OF_CODE:
+                 
+                 ;INTERRUPT VECTORS
+000000 940c 00e8 	JMP  __RESET
+000002 940c 0000 	JMP  0x00
+000004 940c 0000 	JMP  0x00
+000006 940c 0000 	JMP  0x00
+000008 940c 0000 	JMP  0x00
+00000a 940c 0000 	JMP  0x00
+00000c 940c 0000 	JMP  0x00
+00000e 940c 0000 	JMP  0x00
+000010 940c 0000 	JMP  0x00
+000012 940c 0000 	JMP  0x00
+000014 940c 0000 	JMP  0x00
+000016 940c 0000 	JMP  0x00
+000018 940c 0000 	JMP  0x00
+00001a 940c 0000 	JMP  0x00
+00001c 940c 0000 	JMP  0x00
+00001e 940c 0000 	JMP  0x00
+000020 940c 0000 	JMP  0x00
+000022 940c 0000 	JMP  0x00
+000024 940c 0000 	JMP  0x00
+000026 940c 0000 	JMP  0x00
+000028 940c 0000 	JMP  0x00
+                 
+                 _tbl10_G100:
+00002a 2710
+00002b 03e8
+00002c 0064
+00002d 000a      	.DB  0x10,0x27,0xE8,0x3,0x64,0x0,0xA,0x0
+00002e 0001      	.DB  0x1,0x0
+                 _tbl16_G100:
+00002f 1000
+000030 0100
+000031 0010
+000032 0001      	.DB  0x0,0x10,0x0,0x1,0x10,0x0,0x1,0x0
+                 
+                 _0x3:
+000033 00c0
+000034 00f9
+000035 00a4
+000036 00b0      	.DB  0xC0,0x0,0xF9,0x0,0xA4,0x0,0xB0,0x0
+000037 0099
+000038 0092
+000039 0082
+00003a 00f8      	.DB  0x99,0x0,0x92,0x0,0x82,0x0,0xF8,0x0
+00003b 0080
+00003c 0090
+00003d 0000
+00003e 0001      	.DB  0x80,0x0,0x90,0x0,0x0,0x0,0x1,0x0
+00003f 0002
+000040 0003
+000041 0004
+000042 0005      	.DB  0x2,0x0,0x3,0x0,0x4,0x0,0x5,0x0
+000043 0006
+000044 0007
+000045 0008
+000046 0009      	.DB  0x6,0x0,0x7,0x0,0x8,0x0,0x9,0x0
+                 _0x0:
+000047 4544
+000048 2043
+000049 4f54
+00004a 4220      	.DB  0x44,0x45,0x43,0x20,0x54,0x4F,0x20,0x42
+00004b 4e49
+00004c 4300
+00004d 554f
+00004e 544e      	.DB  0x49,0x4E,0x0,0x43,0x4F,0x55,0x4E,0x54
+00004f 4e49
+000050 2047
+000051 2030
+000052 4f54      	.DB  0x49,0x4E,0x47,0x20,0x30,0x20,0x54,0x4F
+000053 3120
+000054 4300
+000055 554f
+000056 544e      	.DB  0x20,0x31,0x0,0x43,0x4F,0x55,0x4E,0x54
+000057 4e49
+000058 2047
+000059 2030
+00005a 4f54      	.DB  0x49,0x4E,0x47,0x20,0x30,0x20,0x54,0x4F
+00005b 3220
+00005c 4300
+00005d 554f
+00005e 544e      	.DB  0x20,0x32,0x0,0x43,0x4F,0x55,0x4E,0x54
+00005f 4e49
+000060 2047
+000061 2030
+000062 4f54      	.DB  0x49,0x4E,0x47,0x20,0x30,0x20,0x54,0x4F
+000063 3320
+000064 4300
+000065 554f
+000066 544e      	.DB  0x20,0x33,0x0,0x43,0x4F,0x55,0x4E,0x54
+000067 4e49
+000068 2047
+000069 2030
+00006a 4f54      	.DB  0x49,0x4E,0x47,0x20,0x30,0x20,0x54,0x4F
+00006b 3420
+00006c 4300
+00006d 554f
+00006e 544e      	.DB  0x20,0x34,0x0,0x43,0x4F,0x55,0x4E,0x54
+00006f 4e49
+000070 2047
+000071 2030
+000072 4f54      	.DB  0x49,0x4E,0x47,0x20,0x30,0x20,0x54,0x4F
+000073 3520
+000074 4300
+000075 554f
+000076 544e      	.DB  0x20,0x35,0x0,0x43,0x4F,0x55,0x4E,0x54
+000077 4e49
+000078 2047
+000079 2030
+00007a 4f54      	.DB  0x49,0x4E,0x47,0x20,0x30,0x20,0x54,0x4F
+00007b 3620
+00007c 4300
+00007d 554f
+00007e 544e      	.DB  0x20,0x36,0x0,0x43,0x4F,0x55,0x4E,0x54
+00007f 4e49
+000080 2047
+000081 2030
+000082 4f54      	.DB  0x49,0x4E,0x47,0x20,0x30,0x20,0x54,0x4F
+000083 3720
+000084 4300
+000085 554f
+000086 544e      	.DB  0x20,0x37,0x0,0x43,0x4F,0x55,0x4E,0x54
+000087 4e49
+000088 2047
+000089 2030
+00008a 4f54      	.DB  0x49,0x4E,0x47,0x20,0x30,0x20,0x54,0x4F
+00008b 3820
+00008c 4300
+00008d 554f
+00008e 544e      	.DB  0x20,0x38,0x0,0x43,0x4F,0x55,0x4E,0x54
+00008f 4e49
+000090 2047
+000091 2030
+000092 4f54      	.DB  0x49,0x4E,0x47,0x20,0x30,0x20,0x54,0x4F
+000093 3920
+000094 4300
+000095 4e41
+000096 5427      	.DB  0x20,0x39,0x0,0x43,0x41,0x4E,0x27,0x54
+000097 4320
+000098 554f
+000099 544e
+00009a 4300      	.DB  0x20,0x43,0x4F,0x55,0x4E,0x54,0x0,0x43
+00009b 554f
+00009c 544e
+00009d 4e49
+00009e 2047      	.DB  0x4F,0x55,0x4E,0x54,0x49,0x4E,0x47,0x20
+00009f 2031
+0000a0 4f54
+0000a1 3020
+0000a2 4300      	.DB  0x31,0x20,0x54,0x4F,0x20,0x30,0x0,0x43
+0000a3 554f
+0000a4 544e
+0000a5 4e49
+0000a6 2047      	.DB  0x4F,0x55,0x4E,0x54,0x49,0x4E,0x47,0x20
+0000a7 2032
+0000a8 4f54
+0000a9 3020
+0000aa 4300      	.DB  0x32,0x20,0x54,0x4F,0x20,0x30,0x0,0x43
+0000ab 554f
+0000ac 544e
+0000ad 4e49
+0000ae 2047      	.DB  0x4F,0x55,0x4E,0x54,0x49,0x4E,0x47,0x20
+0000af 2033
+0000b0 4f54
+0000b1 3020
+0000b2 4300      	.DB  0x33,0x20,0x54,0x4F,0x20,0x30,0x0,0x43
+0000b3 554f
+0000b4 544e
+0000b5 4e49
+0000b6 2047      	.DB  0x4F,0x55,0x4E,0x54,0x49,0x4E,0x47,0x20
+0000b7 2034
+0000b8 4f54
+0000b9 3020
+0000ba 4300      	.DB  0x34,0x20,0x54,0x4F,0x20,0x30,0x0,0x43
+0000bb 554f
+0000bc 544e
+0000bd 4e49
+0000be 2047      	.DB  0x4F,0x55,0x4E,0x54,0x49,0x4E,0x47,0x20
+0000bf 2035
+0000c0 4f54
+0000c1 3020
+0000c2 4300      	.DB  0x35,0x20,0x54,0x4F,0x20,0x30,0x0,0x43
+0000c3 554f
+0000c4 544e
+0000c5 4e49
+0000c6 2047      	.DB  0x4F,0x55,0x4E,0x54,0x49,0x4E,0x47,0x20
+0000c7 2036
+0000c8 4f54
+0000c9 3020
+0000ca 4300      	.DB  0x36,0x20,0x54,0x4F,0x20,0x30,0x0,0x43
+0000cb 554f
+0000cc 544e
+0000cd 4e49
+0000ce 2047      	.DB  0x4F,0x55,0x4E,0x54,0x49,0x4E,0x47,0x20
+0000cf 2037
+0000d0 4f54
+0000d1 3020
+0000d2 4300      	.DB  0x37,0x20,0x54,0x4F,0x20,0x30,0x0,0x43
+0000d3 554f
+0000d4 544e
+0000d5 4e49
+0000d6 2047      	.DB  0x4F,0x55,0x4E,0x54,0x49,0x4E,0x47,0x20
+0000d7 2038
+0000d8 4f54
+0000d9 3020
+0000da 4300      	.DB  0x38,0x20,0x54,0x4F,0x20,0x30,0x0,0x43
+0000db 554f
+0000dc 544e
+0000dd 4e49
+0000de 2047      	.DB  0x4F,0x55,0x4E,0x54,0x49,0x4E,0x47,0x20
+0000df 2039
+0000e0 4f54
+0000e1 3020
+H:\University\Unit 5\Microprosessor\Exercise 1\2\Debug\List\1.asm(1172): warning: .cseg .db misalignment - padding zero byte
+0000e2 0000      	.DB  0x39,0x20,0x54,0x4F,0x20,0x30,0x0
+                 _0x2020003:
+0000e3 c080      	.DB  0x80,0xC0
+                 
+                 __GLOBAL_INI_TBL:
+0000e4 0002      	.DW  0x02
+0000e5 0260      	.DW  __base_y_G101
+0000e6 01c6      	.DW  _0x2020003*2
+                 
+                 _0xFFFFFFFF:
+0000e7 0000      	.DW  0
+                 
+                 #define __GLOBAL_INI_TBL_PRESENT 1
+                 
+                 __RESET:
+0000e8 94f8      	CLI
+0000e9 27ee      	CLR  R30
+0000ea bbec      	OUT  EECR,R30
+                 
+                 ;INTERRUPT VECTORS ARE PLACED
+                 ;AT THE START OF FLASH
+0000eb e0f1      	LDI  R31,1
+0000ec bffb      	OUT  GICR,R31
+0000ed bfeb      	OUT  GICR,R30
+0000ee bfe5      	OUT  MCUCR,R30
+                 
+                 ;CLEAR R2-R14
+0000ef e08d      	LDI  R24,(14-2)+1
+0000f0 e0a2      	LDI  R26,2
+0000f1 27bb      	CLR  R27
+                 __CLEAR_REG:
+0000f2 93ed      	ST   X+,R30
+0000f3 958a      	DEC  R24
+0000f4 f7e9      	BRNE __CLEAR_REG
+                 
+                 ;CLEAR SRAM
+0000f5 e080      	LDI  R24,LOW(__CLEAR_SRAM_SIZE)
+0000f6 e098      	LDI  R25,HIGH(__CLEAR_SRAM_SIZE)
+0000f7 e6a0      	LDI  R26,__SRAM_START
+                 __CLEAR_SRAM:
+0000f8 93ed      	ST   X+,R30
+0000f9 9701      	SBIW R24,1
+0000fa f7e9      	BRNE __CLEAR_SRAM
+                 
+                 ;GLOBAL VARIABLES INITIALIZATION
+0000fb ece8      	LDI  R30,LOW(__GLOBAL_INI_TBL*2)
+0000fc e0f1      	LDI  R31,HIGH(__GLOBAL_INI_TBL*2)
+                 __GLOBAL_INI_NEXT:
+0000fd 9185      	LPM  R24,Z+
+0000fe 9195      	LPM  R25,Z+
+0000ff 9700      	SBIW R24,0
+000100 f061      	BREQ __GLOBAL_INI_END
+000101 91a5      	LPM  R26,Z+
+000102 91b5      	LPM  R27,Z+
+000103 9005      	LPM  R0,Z+
+000104 9015      	LPM  R1,Z+
+000105 01bf      	MOVW R22,R30
+000106 01f0      	MOVW R30,R0
+                 __GLOBAL_INI_LOOP:
+000107 9005      	LPM  R0,Z+
+000108 920d      	ST   X+,R0
+000109 9701      	SBIW R24,1
+00010a f7e1      	BRNE __GLOBAL_INI_LOOP
+00010b 01fb      	MOVW R30,R22
+00010c cff0      	RJMP __GLOBAL_INI_NEXT
+                 __GLOBAL_INI_END:
+                 
+                 ;HARDWARE STACK POINTER INITIALIZATION
+00010d e5ef      	LDI  R30,LOW(__SRAM_END-__HEAP_SIZE)
+00010e bfed      	OUT  SPL,R30
+00010f e0e8      	LDI  R30,HIGH(__SRAM_END-__HEAP_SIZE)
+000110 bfee      	OUT  SPH,R30
+                 
+                 ;DATA STACK POINTER INITIALIZATION
+000111 e6c0      	LDI  R28,LOW(__SRAM_START+__DSTACK_SIZE)
+000112 e0d2      	LDI  R29,HIGH(__SRAM_START+__DSTACK_SIZE)
+                 
+000113 940c 0115 	JMP  _main
+                 
+                 	.ESEG
+                 	.ORG 0
+                 
+                 	.DSEG
+                 	.ORG 0x260
+                 
+                 	.CSEG
+                 ;# include <mega32.h>
+                 	#ifndef __SLEEP_DEFINED__
+                 	#define __SLEEP_DEFINED__
+                 	.EQU __se_bit=0x80
+                 	.EQU __sm_mask=0x70
+                 	.EQU __sm_powerdown=0x20
+                 	.EQU __sm_powersave=0x30
+                 	.EQU __sm_standby=0x60
+                 	.EQU __sm_ext_standby=0x70
+                 	.EQU __sm_adc_noise_red=0x10
+                 	.SET power_ctrl_reg=mcucr
+                 	#endif
+                 ;#include <stdio.h>
+                 ;#include <delay.h>
+                 ;#asm
+                        .equ __lcd_port=0x18;
+                 ; 0000 0006 #endasm
+                 ;#include <lcd.h>
+                 ;
+                 ;
+                 ;void main(void)
+                 ; 0000 000B {
+                 
+                 	.CSEG
+                 _main:
+                 ; .FSTART _main
+                 ; 0000 000C 
+                 ; 0000 000D int i = 0;
+                 ; 0000 000E int LED[10] = {0b0000,0b0001,0b0010,0b0011,0b0100,0b0101,0b0110,0b0111,0b1000,0b1001};
+                 ; 0000 000F int LEDSEG[10] = {0b11000000,0b11111001,0b10100100,0b10110000,0b10011001,0b10010010,0b10000010,0b11111000,0b10000000,0b1 ...
+                 ; 0000 0010 
+                 ; 0000 0011     PORTB = 0x00;
+000115 97a8      	SBIW R28,40
+000116 e288      	LDI  R24,40
+000117 e0a0      	LDI  R26,LOW(0)
+000118 e0b0      	LDI  R27,HIGH(0)
+000119 e6e6      	LDI  R30,LOW(_0x3*2)
+00011a e0f0      	LDI  R31,HIGH(_0x3*2)
+00011b 940e 040d 	CALL __INITLOCB
+                 ;	i -> R16,R17
+                 ;	LED -> Y+20
+                 ;	LEDSEG -> Y+0
+                +
+00011d e000     +LDI R16 , LOW ( 0 )
+00011e e010     +LDI R17 , HIGH ( 0 )
+                 	__GETWRN 16,17,0
+00011f e0e0      	LDI  R30,LOW(0)
+000120 bbe8      	OUT  0x18,R30
+                 ; 0000 0012     DDRB = 0x00;
+000121 bbe7      	OUT  0x17,R30
+                 ; 0000 0013     lcd_init(16);
+000122 e1a0      	LDI  R26,LOW(16)
+000123 940e 039f 	CALL _lcd_init
+                 ; 0000 0014     lcd_clear();
+000125 940e 034e 	CALL _lcd_clear
+                 ; 0000 0015     lcd_gotoxy(3,0);
+000127 e0e3      	LDI  R30,LOW(3)
+000128 93ea      	ST   -Y,R30
+000129 e0a0      	LDI  R26,LOW(0)
+00012a 940e 033e 	CALL _lcd_gotoxy
+                 ; 0000 0016     lcd_putsf("DEC TO BIN");
+                +
+00012c e8ae     +LDI R26 , LOW ( 2 * _0x0 + ( 0 ) )
+00012d e0b0     +LDI R27 , HIGH ( 2 * _0x0 + ( 0 ) )
+                 	__POINTW2FN _0x0,0
+00012e 940e 037b 	CALL _lcd_putsf
+                 ; 0000 0017 
+                 ; 0000 0018 
+                 ; 0000 0019 while (1)
+                 _0x4:
+                 ; 0000 001A       {
+                 ; 0000 001B 
+                 ; 0000 001C         DDRA = 0xFF;
+000130 efef      	LDI  R30,LOW(255)
+000131 bbea      	OUT  0x1A,R30
+                 ; 0000 001D         DDRD = 0xFF;
+000132 bbe1      	OUT  0x11,R30
+                 ; 0000 001E 
+                 ; 0000 001F 
+                 ; 0000 0020         if(PINC.7 == 1){
+000133 9b9f      	SBIS 0x13,7
+000134 c0e4      	RJMP _0x7
+                 ; 0000 0021             if(PINC.0 == 1 && PINC.1 == 0 && PINC.2 == 0 && PINC.3 == 0){
+000135 9b98      	SBIS 0x13,0
+000136 c006      	RJMP _0x9
+000137 9999      	SBIC 0x13,1
+000138 c004      	RJMP _0x9
+000139 999a      	SBIC 0x13,2
+00013a c002      	RJMP _0x9
+00013b 9b9b      	SBIS 0x13,3
+00013c c001      	RJMP _0xA
+                 _0x9:
+00013d c00f      	RJMP _0x8
+                 _0xA:
+                 ; 0000 0022                 lcd_gotoxy(0,1);
+00013e 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 0023                 lcd_putsf("COUNTING 0 TO 1");
+                +
+000140 e9a9     +LDI R26 , LOW ( 2 * _0x0 + ( 11 ) )
+000141 e0b0     +LDI R27 , HIGH ( 2 * _0x0 + ( 11 ) )
+                 	__POINTW2FN _0x0,11
+000142 940e 03d7 	CALL SUBOPT_0x1
+                 ; 0000 0024                 for(i = 0 ; i <= 1 ; i++){
+                 _0xC:
+                +
+000144 3002     +CPI R16 , LOW ( 2 )
+000145 e0e0     +LDI R30 , HIGH ( 2 )
+000146 071e     +CPC R17 , R30
+                 	__CPWRN 16,17,2
+000147 f42c      	BRGE _0xD
+                 ; 0000 0025                     PORTA = LED[i];
+000148 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 0026                     PORTD = LEDSEG[i];
+                 ; 0000 0027                     delay_ms(100);
+                 ; 0000 0028                 }
+                +
+00014a 5f0f     +SUBI R16 , LOW ( - 1 )
+00014b 4f1f     +SBCI R17 , HIGH ( - 1 )
+                 	__ADDWRN 16,17,1
+00014c cff7      	RJMP _0xC
+                 _0xD:
+                 ; 0000 0029             }
+                 ; 0000 002A             if(PINC.0 == 0 && PINC.1 == 1 && PINC.2 == 0 && PINC.3 == 0){
+                 _0x8:
+00014d 9998      	SBIC 0x13,0
+00014e c006      	RJMP _0xF
+00014f 9b99      	SBIS 0x13,1
+000150 c004      	RJMP _0xF
+000151 999a      	SBIC 0x13,2
+000152 c002      	RJMP _0xF
+000153 9b9b      	SBIS 0x13,3
+000154 c001      	RJMP _0x10
+                 _0xF:
+000155 c00f      	RJMP _0xE
+                 _0x10:
+                 ; 0000 002B                 lcd_gotoxy(0,1);
+000156 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 002C                 lcd_putsf("COUNTING 0 TO 2");
+                +
+000158 eaa9     +LDI R26 , LOW ( 2 * _0x0 + ( 27 ) )
+000159 e0b0     +LDI R27 , HIGH ( 2 * _0x0 + ( 27 ) )
+                 	__POINTW2FN _0x0,27
+00015a 940e 03d7 	CALL SUBOPT_0x1
+                 ; 0000 002D                 for(i = 0 ; i <= 2 ; i++){
+                 _0x12:
+                +
+00015c 3003     +CPI R16 , LOW ( 3 )
+00015d e0e0     +LDI R30 , HIGH ( 3 )
+00015e 071e     +CPC R17 , R30
+                 	__CPWRN 16,17,3
+00015f f42c      	BRGE _0x13
+                 ; 0000 002E                     PORTA = LED[i];
+000160 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 002F                     PORTD = LEDSEG[i];
+                 ; 0000 0030                     delay_ms(100);
+                 ; 0000 0031                 }
+                +
+000162 5f0f     +SUBI R16 , LOW ( - 1 )
+000163 4f1f     +SBCI R17 , HIGH ( - 1 )
+                 	__ADDWRN 16,17,1
+000164 cff7      	RJMP _0x12
+                 _0x13:
+                 ; 0000 0032             }
+                 ; 0000 0033             if(PINC.0 == 1 && PINC.1 == 1 && PINC.2 == 0 && PINC.3 == 0){
+                 _0xE:
+000165 9b98      	SBIS 0x13,0
+000166 c006      	RJMP _0x15
+000167 9b99      	SBIS 0x13,1
+000168 c004      	RJMP _0x15
+000169 999a      	SBIC 0x13,2
+00016a c002      	RJMP _0x15
+00016b 9b9b      	SBIS 0x13,3
+00016c c001      	RJMP _0x16
+                 _0x15:
+00016d c00f      	RJMP _0x14
+                 _0x16:
+                 ; 0000 0034                 lcd_gotoxy(0,1);
+00016e 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 0035                 lcd_putsf("COUNTING 0 TO 3");
+                +
+000170 eba9     +LDI R26 , LOW ( 2 * _0x0 + ( 43 ) )
+000171 e0b0     +LDI R27 , HIGH ( 2 * _0x0 + ( 43 ) )
+                 	__POINTW2FN _0x0,43
+000172 940e 03d7 	CALL SUBOPT_0x1
+                 ; 0000 0036                 for(i = 0 ; i <= 3 ; i++){
+                 _0x18:
+                +
+000174 3004     +CPI R16 , LOW ( 4 )
+000175 e0e0     +LDI R30 , HIGH ( 4 )
+000176 071e     +CPC R17 , R30
+                 	__CPWRN 16,17,4
+000177 f42c      	BRGE _0x19
+                 ; 0000 0037                     PORTA = LED[i];
+000178 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 0038                     PORTD = LEDSEG[i];
+                 ; 0000 0039                     delay_ms(100);
+                 ; 0000 003A                 }
+                +
+00017a 5f0f     +SUBI R16 , LOW ( - 1 )
+00017b 4f1f     +SBCI R17 , HIGH ( - 1 )
+                 	__ADDWRN 16,17,1
+00017c cff7      	RJMP _0x18
+                 _0x19:
+                 ; 0000 003B             }
+                 ; 0000 003C             if(PINC.0 == 0 && PINC.1 == 0 && PINC.2 == 1 && PINC.3 == 0){
+                 _0x14:
+00017d 9998      	SBIC 0x13,0
+00017e c006      	RJMP _0x1B
+00017f 9999      	SBIC 0x13,1
+000180 c004      	RJMP _0x1B
+000181 9b9a      	SBIS 0x13,2
+000182 c002      	RJMP _0x1B
+000183 9b9b      	SBIS 0x13,3
+000184 c001      	RJMP _0x1C
+                 _0x1B:
+000185 c00f      	RJMP _0x1A
+                 _0x1C:
+                 ; 0000 003D                 lcd_gotoxy(0,1);
+000186 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 003E                 lcd_putsf("COUNTING 0 TO 4");
+                +
+000188 eca9     +LDI R26 , LOW ( 2 * _0x0 + ( 59 ) )
+000189 e0b0     +LDI R27 , HIGH ( 2 * _0x0 + ( 59 ) )
+                 	__POINTW2FN _0x0,59
+00018a 940e 03d7 	CALL SUBOPT_0x1
+                 ; 0000 003F                 for(i = 0 ; i <= 4 ; i++){
+                 _0x1E:
+                +
+00018c 3005     +CPI R16 , LOW ( 5 )
+00018d e0e0     +LDI R30 , HIGH ( 5 )
+00018e 071e     +CPC R17 , R30
+                 	__CPWRN 16,17,5
+00018f f42c      	BRGE _0x1F
+                 ; 0000 0040                     PORTA = LED[i];
+000190 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 0041                     PORTD = LEDSEG[i];
+                 ; 0000 0042                     delay_ms(100);
+                 ; 0000 0043                 }
+                +
+000192 5f0f     +SUBI R16 , LOW ( - 1 )
+000193 4f1f     +SBCI R17 , HIGH ( - 1 )
+                 	__ADDWRN 16,17,1
+000194 cff7      	RJMP _0x1E
+                 _0x1F:
+                 ; 0000 0044             }
+                 ; 0000 0045             if(PINC.0 == 1 && PINC.0 == 1 && PINC.2 == 1 && PINC.3 == 0){
+                 _0x1A:
+000195 9b98      	SBIS 0x13,0
+000196 c006      	RJMP _0x21
+000197 9b98      	SBIS 0x13,0
+000198 c004      	RJMP _0x21
+000199 9b9a      	SBIS 0x13,2
+00019a c002      	RJMP _0x21
+00019b 9b9b      	SBIS 0x13,3
+00019c c001      	RJMP _0x22
+                 _0x21:
+00019d c00f      	RJMP _0x20
+                 _0x22:
+                 ; 0000 0046                 lcd_gotoxy(0,1);
+00019e 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 0047                 lcd_putsf("COUNTING 0 TO 5");
+                +
+0001a0 eda9     +LDI R26 , LOW ( 2 * _0x0 + ( 75 ) )
+0001a1 e0b0     +LDI R27 , HIGH ( 2 * _0x0 + ( 75 ) )
+                 	__POINTW2FN _0x0,75
+0001a2 940e 03d7 	CALL SUBOPT_0x1
+                 ; 0000 0048                 for(i = 0 ; i <= 5 ; i++){
+                 _0x24:
+                +
+0001a4 3006     +CPI R16 , LOW ( 6 )
+0001a5 e0e0     +LDI R30 , HIGH ( 6 )
+0001a6 071e     +CPC R17 , R30
+                 	__CPWRN 16,17,6
+0001a7 f42c      	BRGE _0x25
+                 ; 0000 0049                     PORTA = LED[i];
+0001a8 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 004A                     PORTD = LEDSEG[i];
+                 ; 0000 004B                     delay_ms(100);
+                 ; 0000 004C                 }
+                +
+0001aa 5f0f     +SUBI R16 , LOW ( - 1 )
+0001ab 4f1f     +SBCI R17 , HIGH ( - 1 )
+                 	__ADDWRN 16,17,1
+0001ac cff7      	RJMP _0x24
+                 _0x25:
+                 ; 0000 004D             }
+                 ; 0000 004E             if(PINC.0 == 0 && PINC.1 == 1 && PINC.2 == 1 && PINC.3 == 0){
+                 _0x20:
+0001ad 9998      	SBIC 0x13,0
+0001ae c006      	RJMP _0x27
+0001af 9b99      	SBIS 0x13,1
+0001b0 c004      	RJMP _0x27
+0001b1 9b9a      	SBIS 0x13,2
+0001b2 c002      	RJMP _0x27
+0001b3 9b9b      	SBIS 0x13,3
+0001b4 c001      	RJMP _0x28
+                 _0x27:
+0001b5 c00f      	RJMP _0x26
+                 _0x28:
+                 ; 0000 004F                 lcd_gotoxy(0,1);
+0001b6 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 0050                 lcd_putsf("COUNTING 0 TO 6");
+                +
+0001b8 eea9     +LDI R26 , LOW ( 2 * _0x0 + ( 91 ) )
+0001b9 e0b0     +LDI R27 , HIGH ( 2 * _0x0 + ( 91 ) )
+                 	__POINTW2FN _0x0,91
+0001ba 940e 03d7 	CALL SUBOPT_0x1
+                 ; 0000 0051                 for(i = 0 ; i <= 6 ; i++){
+                 _0x2A:
+                +
+0001bc 3007     +CPI R16 , LOW ( 7 )
+0001bd e0e0     +LDI R30 , HIGH ( 7 )
+0001be 071e     +CPC R17 , R30
+                 	__CPWRN 16,17,7
+0001bf f42c      	BRGE _0x2B
+                 ; 0000 0052                     PORTA = LED[i];
+0001c0 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 0053                     PORTD = LEDSEG[i];
+                 ; 0000 0054                     delay_ms(100);
+                 ; 0000 0055                 }
+                +
+0001c2 5f0f     +SUBI R16 , LOW ( - 1 )
+0001c3 4f1f     +SBCI R17 , HIGH ( - 1 )
+                 	__ADDWRN 16,17,1
+0001c4 cff7      	RJMP _0x2A
+                 _0x2B:
+                 ; 0000 0056             }
+                 ; 0000 0057             if(PINC.0 == 1 && PINC.1 == 1 && PINC.2 == 1 && PINC.3 == 0){
+                 _0x26:
+0001c5 9b98      	SBIS 0x13,0
+0001c6 c006      	RJMP _0x2D
+0001c7 9b99      	SBIS 0x13,1
+0001c8 c004      	RJMP _0x2D
+0001c9 9b9a      	SBIS 0x13,2
+0001ca c002      	RJMP _0x2D
+0001cb 9b9b      	SBIS 0x13,3
+0001cc c001      	RJMP _0x2E
+                 _0x2D:
+0001cd c00f      	RJMP _0x2C
+                 _0x2E:
+                 ; 0000 0058                 lcd_gotoxy(0,1);
+0001ce 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 0059                 lcd_putsf("COUNTING 0 TO 7");
+                +
+0001d0 efa9     +LDI R26 , LOW ( 2 * _0x0 + ( 107 ) )
+0001d1 e0b0     +LDI R27 , HIGH ( 2 * _0x0 + ( 107 ) )
+                 	__POINTW2FN _0x0,107
+0001d2 940e 03d7 	CALL SUBOPT_0x1
+                 ; 0000 005A                 for(i = 0 ; i <= 7 ; i++){
+                 _0x30:
+                +
+0001d4 3008     +CPI R16 , LOW ( 8 )
+0001d5 e0e0     +LDI R30 , HIGH ( 8 )
+0001d6 071e     +CPC R17 , R30
+                 	__CPWRN 16,17,8
+0001d7 f42c      	BRGE _0x31
+                 ; 0000 005B                     PORTA = LED[i];
+0001d8 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 005C                     PORTD = LEDSEG[i];
+                 ; 0000 005D                     delay_ms(100);
+                 ; 0000 005E                 }
+                +
+0001da 5f0f     +SUBI R16 , LOW ( - 1 )
+0001db 4f1f     +SBCI R17 , HIGH ( - 1 )
+                 	__ADDWRN 16,17,1
+0001dc cff7      	RJMP _0x30
+                 _0x31:
+                 ; 0000 005F             }
+                 ; 0000 0060             if(PINC.0 == 0 && PINC.1 == 0 && PINC.2 == 0 && PINC.3 == 1){
+                 _0x2C:
+0001dd 9998      	SBIC 0x13,0
+0001de c006      	RJMP _0x33
+0001df 9999      	SBIC 0x13,1
+0001e0 c004      	RJMP _0x33
+0001e1 999a      	SBIC 0x13,2
+0001e2 c002      	RJMP _0x33
+0001e3 999b      	SBIC 0x13,3
+0001e4 c001      	RJMP _0x34
+                 _0x33:
+0001e5 c00f      	RJMP _0x32
+                 _0x34:
+                 ; 0000 0061                 lcd_gotoxy(0,1);
+0001e6 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 0062                 lcd_putsf("COUNTING 0 TO 8");
+                +
+0001e8 e0a9     +LDI R26 , LOW ( 2 * _0x0 + ( 123 ) )
+0001e9 e0b1     +LDI R27 , HIGH ( 2 * _0x0 + ( 123 ) )
+                 	__POINTW2FN _0x0,123
+0001ea 940e 03d7 	CALL SUBOPT_0x1
+                 ; 0000 0063                 for(i = 0 ; i <= 8 ; i++){
+                 _0x36:
+                +
+0001ec 3009     +CPI R16 , LOW ( 9 )
+0001ed e0e0     +LDI R30 , HIGH ( 9 )
+0001ee 071e     +CPC R17 , R30
+                 	__CPWRN 16,17,9
+0001ef f42c      	BRGE _0x37
+                 ; 0000 0064                     PORTA = LED[i];
+0001f0 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 0065                     PORTD = LEDSEG[i];
+                 ; 0000 0066                     delay_ms(100);
+                 ; 0000 0067                 }
+                +
+0001f2 5f0f     +SUBI R16 , LOW ( - 1 )
+0001f3 4f1f     +SBCI R17 , HIGH ( - 1 )
+                 	__ADDWRN 16,17,1
+0001f4 cff7      	RJMP _0x36
+                 _0x37:
+                 ; 0000 0068             }
+                 ; 0000 0069             if(PINC.0 == 1 && PINC.1 == 0 && PINC.2 == 0 && PINC.3 == 1){
+                 _0x32:
+0001f5 9b98      	SBIS 0x13,0
+0001f6 c006      	RJMP _0x39
+0001f7 9999      	SBIC 0x13,1
+0001f8 c004      	RJMP _0x39
+0001f9 999a      	SBIC 0x13,2
+0001fa c002      	RJMP _0x39
+0001fb 999b      	SBIC 0x13,3
+0001fc c001      	RJMP _0x3A
+                 _0x39:
+0001fd c00f      	RJMP _0x38
+                 _0x3A:
+                 ; 0000 006A                 lcd_gotoxy(0,1);
+0001fe 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 006B                 lcd_putsf("COUNTING 0 TO 9");
+                +
+000200 e1a9     +LDI R26 , LOW ( 2 * _0x0 + ( 139 ) )
+000201 e0b1     +LDI R27 , HIGH ( 2 * _0x0 + ( 139 ) )
+                 	__POINTW2FN _0x0,139
+000202 940e 03d7 	CALL SUBOPT_0x1
+                 ; 0000 006C                 for(i = 0 ; i <= 9 ; i++){
+                 _0x3C:
+                +
+000204 300a     +CPI R16 , LOW ( 10 )
+000205 e0e0     +LDI R30 , HIGH ( 10 )
+000206 071e     +CPC R17 , R30
+                 	__CPWRN 16,17,10
+000207 f42c      	BRGE _0x3D
+                 ; 0000 006D                     PORTA = LED[i];
+000208 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 006E                     PORTD = LEDSEG[i];
+                 ; 0000 006F                     delay_ms(100);
+                 ; 0000 0070                 }
+                +
+00020a 5f0f     +SUBI R16 , LOW ( - 1 )
+00020b 4f1f     +SBCI R17 , HIGH ( - 1 )
+                 	__ADDWRN 16,17,1
+00020c cff7      	RJMP _0x3C
+                 _0x3D:
+                 ; 0000 0071             }
+                 ; 0000 0072             if(PINC.0 == 0 && PINC.1 == 0 && PINC.2 == 0 && PINC.3 == 0){
+                 _0x38:
+00020d 9998      	SBIC 0x13,0
+00020e c006      	RJMP _0x3F
+00020f 9999      	SBIC 0x13,1
+000210 c004      	RJMP _0x3F
+000211 999a      	SBIC 0x13,2
+000212 c002      	RJMP _0x3F
+000213 9b9b      	SBIS 0x13,3
+000214 c001      	RJMP _0x40
+                 _0x3F:
+000215 c002      	RJMP _0x3E
+                 _0x40:
+                 ; 0000 0073                 lcd_gotoxy(3,1);
+000216 940e 03f1 	CALL SUBOPT_0x3
+                 ; 0000 0074                 lcd_putsf("CAN'T COUNT");
+                 ; 0000 0075             }
+                 ; 0000 0076 
+                 ; 0000 0077 
+                 ; 0000 0078         } else{
+                 _0x3E:
+000218 c0e3      	RJMP _0x41
+                 _0x7:
+                 ; 0000 0079             if(PINC.0 == 1 && PINC.1 == 0 && PINC.2 == 0 && PINC.3 == 0){
+000219 9b98      	SBIS 0x13,0
+00021a c006      	RJMP _0x43
+00021b 9999      	SBIC 0x13,1
+00021c c004      	RJMP _0x43
+00021d 999a      	SBIC 0x13,2
+00021e c002      	RJMP _0x43
+00021f 9b9b      	SBIS 0x13,3
+000220 c001      	RJMP _0x44
+                 _0x43:
+000221 c00f      	RJMP _0x42
+                 _0x44:
+                 ; 0000 007A                 lcd_gotoxy(0,1);
+000222 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 007B                 lcd_putsf("COUNTING 1 TO 0");
+                +
+000224 e3a5     +LDI R26 , LOW ( 2 * _0x0 + ( 167 ) )
+000225 e0b1     +LDI R27 , HIGH ( 2 * _0x0 + ( 167 ) )
+                 	__POINTW2FN _0x0,167
+000226 940e 037b 	CALL _lcd_putsf
+                 ; 0000 007C                 for(i = 1 ; i >=0 ; i--){
+                +
+000228 e001     +LDI R16 , LOW ( 1 )
+000229 e010     +LDI R17 , HIGH ( 1 )
+                 	__GETWRN 16,17,1
+                 _0x46:
+00022a 2311      	TST  R17
+00022b f02a      	BRMI _0x47
+                 ; 0000 007D                 PORTA = LED[i];
+00022c 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 007E                 PORTD = LEDSEG[i];
+                 ; 0000 007F                 delay_ms(100);
+                 ; 0000 0080                 }
+                +
+00022e 5001     +SUBI R16 , LOW ( 1 )
+00022f 4010     +SBCI R17 , HIGH ( 1 )
+                 	__SUBWRN 16,17,1
+000230 cff9      	RJMP _0x46
+                 _0x47:
+                 ; 0000 0081             }
+                 ; 0000 0082             if(PINC.0 == 0 && PINC.1 == 1 && PINC.2 == 0 && PINC.3 == 0){
+                 _0x42:
+000231 9998      	SBIC 0x13,0
+000232 c006      	RJMP _0x49
+000233 9b99      	SBIS 0x13,1
+000234 c004      	RJMP _0x49
+000235 999a      	SBIC 0x13,2
+000236 c002      	RJMP _0x49
+000237 9b9b      	SBIS 0x13,3
+000238 c001      	RJMP _0x4A
+                 _0x49:
+000239 c00f      	RJMP _0x48
+                 _0x4A:
+                 ; 0000 0083                 lcd_gotoxy(0,1);
+00023a 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 0084                 lcd_putsf("COUNTING 2 TO 0");
+                +
+00023c e4a5     +LDI R26 , LOW ( 2 * _0x0 + ( 183 ) )
+00023d e0b1     +LDI R27 , HIGH ( 2 * _0x0 + ( 183 ) )
+                 	__POINTW2FN _0x0,183
+00023e 940e 037b 	CALL _lcd_putsf
+                 ; 0000 0085                 for(i = 2 ; i >=0 ; i--){
+                +
+000240 e002     +LDI R16 , LOW ( 2 )
+000241 e010     +LDI R17 , HIGH ( 2 )
+                 	__GETWRN 16,17,2
+                 _0x4C:
+000242 2311      	TST  R17
+000243 f02a      	BRMI _0x4D
+                 ; 0000 0086                 PORTA = LED[i];
+000244 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 0087                 PORTD = LEDSEG[i];
+                 ; 0000 0088                 delay_ms(100);
+                 ; 0000 0089                 }
+                +
+000246 5001     +SUBI R16 , LOW ( 1 )
+000247 4010     +SBCI R17 , HIGH ( 1 )
+                 	__SUBWRN 16,17,1
+000248 cff9      	RJMP _0x4C
+                 _0x4D:
+                 ; 0000 008A             }
+                 ; 0000 008B             if(PINC.0 == 1 && PINC.1 == 1 && PINC.2 == 0 && PINC.3 == 0){
+                 _0x48:
+000249 9b98      	SBIS 0x13,0
+00024a c006      	RJMP _0x4F
+00024b 9b99      	SBIS 0x13,1
+00024c c004      	RJMP _0x4F
+00024d 999a      	SBIC 0x13,2
+00024e c002      	RJMP _0x4F
+00024f 9b9b      	SBIS 0x13,3
+000250 c001      	RJMP _0x50
+                 _0x4F:
+000251 c00f      	RJMP _0x4E
+                 _0x50:
+                 ; 0000 008C                 lcd_gotoxy(0,1);
+000252 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 008D                 lcd_putsf("COUNTING 3 TO 0");
+                +
+000254 e5a5     +LDI R26 , LOW ( 2 * _0x0 + ( 199 ) )
+000255 e0b1     +LDI R27 , HIGH ( 2 * _0x0 + ( 199 ) )
+                 	__POINTW2FN _0x0,199
+000256 940e 037b 	CALL _lcd_putsf
+                 ; 0000 008E                 for(i = 3 ; i >=0 ; i--){
+                +
+000258 e003     +LDI R16 , LOW ( 3 )
+000259 e010     +LDI R17 , HIGH ( 3 )
+                 	__GETWRN 16,17,3
+                 _0x52:
+00025a 2311      	TST  R17
+00025b f02a      	BRMI _0x53
+                 ; 0000 008F                 PORTA = LED[i];
+00025c 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 0090                 PORTD = LEDSEG[i];
+                 ; 0000 0091                 delay_ms(100);
+                 ; 0000 0092                 }
+                +
+00025e 5001     +SUBI R16 , LOW ( 1 )
+00025f 4010     +SBCI R17 , HIGH ( 1 )
+                 	__SUBWRN 16,17,1
+000260 cff9      	RJMP _0x52
+                 _0x53:
+                 ; 0000 0093             }
+                 ; 0000 0094             if(PINC.0 == 0 && PINC.1 == 0 && PINC.2 == 1 && PINC.3 == 0){
+                 _0x4E:
+000261 9998      	SBIC 0x13,0
+000262 c006      	RJMP _0x55
+000263 9999      	SBIC 0x13,1
+000264 c004      	RJMP _0x55
+000265 9b9a      	SBIS 0x13,2
+000266 c002      	RJMP _0x55
+000267 9b9b      	SBIS 0x13,3
+000268 c001      	RJMP _0x56
+                 _0x55:
+000269 c00f      	RJMP _0x54
+                 _0x56:
+                 ; 0000 0095                 lcd_gotoxy(0,1);
+00026a 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 0096                 lcd_putsf("COUNTING 4 TO 0");
+                +
+00026c e6a5     +LDI R26 , LOW ( 2 * _0x0 + ( 215 ) )
+00026d e0b1     +LDI R27 , HIGH ( 2 * _0x0 + ( 215 ) )
+                 	__POINTW2FN _0x0,215
+00026e 940e 037b 	CALL _lcd_putsf
+                 ; 0000 0097                 for(i = 4 ; i >=0 ; i--){
+                +
+000270 e004     +LDI R16 , LOW ( 4 )
+000271 e010     +LDI R17 , HIGH ( 4 )
+                 	__GETWRN 16,17,4
+                 _0x58:
+000272 2311      	TST  R17
+000273 f02a      	BRMI _0x59
+                 ; 0000 0098                 PORTA = LED[i];
+000274 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 0099                 PORTD = LEDSEG[i];
+                 ; 0000 009A                 delay_ms(100);
+                 ; 0000 009B                 }
+                +
+000276 5001     +SUBI R16 , LOW ( 1 )
+000277 4010     +SBCI R17 , HIGH ( 1 )
+                 	__SUBWRN 16,17,1
+000278 cff9      	RJMP _0x58
+                 _0x59:
+                 ; 0000 009C             }
+                 ; 0000 009D             if(PINC.0 == 1 && PINC.1 == 0 && PINC.2 == 1 && PINC.3 == 0){
+                 _0x54:
+000279 9b98      	SBIS 0x13,0
+00027a c006      	RJMP _0x5B
+00027b 9999      	SBIC 0x13,1
+00027c c004      	RJMP _0x5B
+00027d 9b9a      	SBIS 0x13,2
+00027e c002      	RJMP _0x5B
+00027f 9b9b      	SBIS 0x13,3
+000280 c001      	RJMP _0x5C
+                 _0x5B:
+000281 c00f      	RJMP _0x5A
+                 _0x5C:
+                 ; 0000 009E                 lcd_gotoxy(0,1);
+000282 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 009F                 lcd_putsf("COUNTING 5 TO 0");
+                +
+000284 e7a5     +LDI R26 , LOW ( 2 * _0x0 + ( 231 ) )
+000285 e0b1     +LDI R27 , HIGH ( 2 * _0x0 + ( 231 ) )
+                 	__POINTW2FN _0x0,231
+000286 940e 037b 	CALL _lcd_putsf
+                 ; 0000 00A0                 for(i = 5 ; i >=0 ; i--){
+                +
+000288 e005     +LDI R16 , LOW ( 5 )
+000289 e010     +LDI R17 , HIGH ( 5 )
+                 	__GETWRN 16,17,5
+                 _0x5E:
+00028a 2311      	TST  R17
+00028b f02a      	BRMI _0x5F
+                 ; 0000 00A1                 PORTA = LED[i];
+00028c 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 00A2                 PORTD = LEDSEG[i];
+                 ; 0000 00A3                 delay_ms(100);
+                 ; 0000 00A4                 }
+                +
+00028e 5001     +SUBI R16 , LOW ( 1 )
+00028f 4010     +SBCI R17 , HIGH ( 1 )
+                 	__SUBWRN 16,17,1
+000290 cff9      	RJMP _0x5E
+                 _0x5F:
+                 ; 0000 00A5             }
+                 ; 0000 00A6             if(PINC.0 == 0 && PINC.1 == 1 && PINC.2 == 1 && PINC.3 == 0){
+                 _0x5A:
+000291 9998      	SBIC 0x13,0
+000292 c006      	RJMP _0x61
+000293 9b99      	SBIS 0x13,1
+000294 c004      	RJMP _0x61
+000295 9b9a      	SBIS 0x13,2
+000296 c002      	RJMP _0x61
+000297 9b9b      	SBIS 0x13,3
+000298 c001      	RJMP _0x62
+                 _0x61:
+000299 c00f      	RJMP _0x60
+                 _0x62:
+                 ; 0000 00A7                 lcd_gotoxy(0,1);
+00029a 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 00A8                 lcd_putsf("COUNTING 6 TO 0");
+                +
+00029c e8a5     +LDI R26 , LOW ( 2 * _0x0 + ( 247 ) )
+00029d e0b1     +LDI R27 , HIGH ( 2 * _0x0 + ( 247 ) )
+                 	__POINTW2FN _0x0,247
+00029e 940e 037b 	CALL _lcd_putsf
+                 ; 0000 00A9                 for(i = 6 ; i >=0 ; i--){
+                +
+0002a0 e006     +LDI R16 , LOW ( 6 )
+0002a1 e010     +LDI R17 , HIGH ( 6 )
+                 	__GETWRN 16,17,6
+                 _0x64:
+0002a2 2311      	TST  R17
+0002a3 f02a      	BRMI _0x65
+                 ; 0000 00AA                 PORTA = LED[i];
+0002a4 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 00AB                 PORTD = LEDSEG[i];
+                 ; 0000 00AC                 delay_ms(100);
+                 ; 0000 00AD                 }
+                +
+0002a6 5001     +SUBI R16 , LOW ( 1 )
+0002a7 4010     +SBCI R17 , HIGH ( 1 )
+                 	__SUBWRN 16,17,1
+0002a8 cff9      	RJMP _0x64
+                 _0x65:
+                 ; 0000 00AE             }
+                 ; 0000 00AF             if(PINC.0 == 1 && PINC.1 == 1 && PINC.2 == 1 && PINC.3 == 0){
+                 _0x60:
+0002a9 9b98      	SBIS 0x13,0
+0002aa c006      	RJMP _0x67
+0002ab 9b99      	SBIS 0x13,1
+0002ac c004      	RJMP _0x67
+0002ad 9b9a      	SBIS 0x13,2
+0002ae c002      	RJMP _0x67
+0002af 9b9b      	SBIS 0x13,3
+0002b0 c001      	RJMP _0x68
+                 _0x67:
+0002b1 c00f      	RJMP _0x66
+                 _0x68:
+                 ; 0000 00B0                 lcd_gotoxy(0,1);
+0002b2 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 00B1                 lcd_putsf("COUNTING 7 TO 0");
+                +
+0002b4 e9a5     +LDI R26 , LOW ( 2 * _0x0 + ( 263 ) )
+0002b5 e0b1     +LDI R27 , HIGH ( 2 * _0x0 + ( 263 ) )
+                 	__POINTW2FN _0x0,263
+0002b6 940e 037b 	CALL _lcd_putsf
+                 ; 0000 00B2                 for(i = 7 ; i >=0 ; i--){
+                +
+0002b8 e007     +LDI R16 , LOW ( 7 )
+0002b9 e010     +LDI R17 , HIGH ( 7 )
+                 	__GETWRN 16,17,7
+                 _0x6A:
+0002ba 2311      	TST  R17
+0002bb f02a      	BRMI _0x6B
+                 ; 0000 00B3                 PORTA = LED[i];
+0002bc 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 00B4                 PORTD = LEDSEG[i];
+                 ; 0000 00B5                 delay_ms(100);
+                 ; 0000 00B6                 }
+                +
+0002be 5001     +SUBI R16 , LOW ( 1 )
+0002bf 4010     +SBCI R17 , HIGH ( 1 )
+                 	__SUBWRN 16,17,1
+0002c0 cff9      	RJMP _0x6A
+                 _0x6B:
+                 ; 0000 00B7             }
+                 ; 0000 00B8             if(PINC.0 == 0 && PINC.1 == 0 && PINC.2 == 0 && PINC.3 == 1){
+                 _0x66:
+0002c1 9998      	SBIC 0x13,0
+0002c2 c006      	RJMP _0x6D
+0002c3 9999      	SBIC 0x13,1
+0002c4 c004      	RJMP _0x6D
+0002c5 999a      	SBIC 0x13,2
+0002c6 c002      	RJMP _0x6D
+0002c7 999b      	SBIC 0x13,3
+0002c8 c001      	RJMP _0x6E
+                 _0x6D:
+0002c9 c00f      	RJMP _0x6C
+                 _0x6E:
+                 ; 0000 00B9                 lcd_gotoxy(0,1);
+0002ca 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 00BA                 lcd_putsf("COUNTING 8 TO 0");
+                +
+0002cc eaa5     +LDI R26 , LOW ( 2 * _0x0 + ( 279 ) )
+0002cd e0b1     +LDI R27 , HIGH ( 2 * _0x0 + ( 279 ) )
+                 	__POINTW2FN _0x0,279
+0002ce 940e 037b 	CALL _lcd_putsf
+                 ; 0000 00BB                 for(i = 8 ; i >=0 ; i--){
+                +
+0002d0 e008     +LDI R16 , LOW ( 8 )
+0002d1 e010     +LDI R17 , HIGH ( 8 )
+                 	__GETWRN 16,17,8
+                 _0x70:
+0002d2 2311      	TST  R17
+0002d3 f02a      	BRMI _0x71
+                 ; 0000 00BC                 PORTA = LED[i];
+0002d4 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 00BD                 PORTD = LEDSEG[i];
+                 ; 0000 00BE                 delay_ms(100);
+                 ; 0000 00BF                 }
+                +
+0002d6 5001     +SUBI R16 , LOW ( 1 )
+0002d7 4010     +SBCI R17 , HIGH ( 1 )
+                 	__SUBWRN 16,17,1
+0002d8 cff9      	RJMP _0x70
+                 _0x71:
+                 ; 0000 00C0             }
+                 ; 0000 00C1             if(PINC.0 == 1 && PINC.1 == 0 && PINC.2 == 0 && PINC.3 == 1){
+                 _0x6C:
+0002d9 9b98      	SBIS 0x13,0
+0002da c006      	RJMP _0x73
+0002db 9999      	SBIC 0x13,1
+0002dc c004      	RJMP _0x73
+0002dd 999a      	SBIC 0x13,2
+0002de c002      	RJMP _0x73
+0002df 999b      	SBIC 0x13,3
+0002e0 c001      	RJMP _0x74
+                 _0x73:
+0002e1 c00f      	RJMP _0x72
+                 _0x74:
+                 ; 0000 00C2                 lcd_gotoxy(0,1);
+0002e2 940e 03d2 	CALL SUBOPT_0x0
+                 ; 0000 00C3                 lcd_putsf("COUNTING 9 TO 0");
+                +
+0002e4 eba5     +LDI R26 , LOW ( 2 * _0x0 + ( 295 ) )
+0002e5 e0b1     +LDI R27 , HIGH ( 2 * _0x0 + ( 295 ) )
+                 	__POINTW2FN _0x0,295
+0002e6 940e 037b 	CALL _lcd_putsf
+                 ; 0000 00C4                 for(i = 9 ; i >=0 ; i--){
+                +
+0002e8 e009     +LDI R16 , LOW ( 9 )
+0002e9 e010     +LDI R17 , HIGH ( 9 )
+                 	__GETWRN 16,17,9
+                 _0x76:
+0002ea 2311      	TST  R17
+0002eb f02a      	BRMI _0x77
+                 ; 0000 00C5                 PORTA = LED[i];
+0002ec 940e 03dc 	CALL SUBOPT_0x2
+                 ; 0000 00C6                 PORTD = LEDSEG[i];
+                 ; 0000 00C7                 delay_ms(100);
+                 ; 0000 00C8                 }
+                +
+0002ee 5001     +SUBI R16 , LOW ( 1 )
+0002ef 4010     +SBCI R17 , HIGH ( 1 )
+                 	__SUBWRN 16,17,1
+0002f0 cff9      	RJMP _0x76
+                 _0x77:
+                 ; 0000 00C9             }
+                 ; 0000 00CA             if(PINC.0 == 0 && PINC.1 == 0 && PINC.2 == 0 && PINC.3 == 0){
+                 _0x72:
+0002f1 9998      	SBIC 0x13,0
+0002f2 c006      	RJMP _0x79
+0002f3 9999      	SBIC 0x13,1
+0002f4 c004      	RJMP _0x79
+0002f5 999a      	SBIC 0x13,2
+0002f6 c002      	RJMP _0x79
+0002f7 9b9b      	SBIS 0x13,3
+0002f8 c001      	RJMP _0x7A
+                 _0x79:
+0002f9 c002      	RJMP _0x78
+                 _0x7A:
+                 ; 0000 00CB                 lcd_gotoxy(3,1);
+0002fa 940e 03f1 	CALL SUBOPT_0x3
+                 ; 0000 00CC                 lcd_putsf("CAN'T COUNT");
+                 ; 0000 00CD             }
+                 ; 0000 00CE         }
+                 _0x78:
+                 _0x41:
+                 ; 0000 00CF 
+                 ; 0000 00D0       }
+0002fc ce33      	RJMP _0x4
+                 ; 0000 00D1 }
+                 _0x7B:
+0002fd cfff      	RJMP _0x7B
+                 ; .FEND
+                 	#ifndef __SLEEP_DEFINED__
+                 	#endif
+                 
+                 	.CSEG
+                     .equ __lcd_direction=__lcd_port-1
+                     .equ __lcd_pin=__lcd_port-2
+                     .equ __lcd_rs=0
+                     .equ __lcd_rd=1
+                     .equ __lcd_enable=2
+                     .equ __lcd_busy_flag=7
+                 
+                 	.DSEG
+                 
+                 	.CSEG
+                 __lcd_delay_G101:
+                 ; .FSTART __lcd_delay_G101
+0002fe e0ff          ldi   r31,15
+                 __lcd_delay0:
+0002ff 95fa          dec   r31
+000300 f7f1          brne  __lcd_delay0
+000301 9508      	RET
+                 ; .FEND
+                 __lcd_ready:
+                 ; .FSTART __lcd_ready
+000302 b3a7          in    r26,__lcd_direction
+000303 70af          andi  r26,0xf                 ;set as input
+000304 bba7          out   __lcd_direction,r26
+000305 9ac1          sbi   __lcd_port,__lcd_rd     ;RD=1
+000306 98c0          cbi   __lcd_port,__lcd_rs     ;RS=0
+                 __lcd_busy:
+000307 dff6      	RCALL __lcd_delay_G101
+000308 9ac2          sbi   __lcd_port,__lcd_enable ;EN=1
+000309 dff4      	RCALL __lcd_delay_G101
+00030a b3a6          in    r26,__lcd_pin
+00030b 98c2          cbi   __lcd_port,__lcd_enable ;EN=0
+00030c dff1      	RCALL __lcd_delay_G101
+00030d 9ac2          sbi   __lcd_port,__lcd_enable ;EN=1
+00030e dfef      	RCALL __lcd_delay_G101
+00030f 98c2          cbi   __lcd_port,__lcd_enable ;EN=0
+000310 fda7          sbrc  r26,__lcd_busy_flag
+000311 cff5          rjmp  __lcd_busy
+000312 9508      	RET
+                 ; .FEND
+                 __lcd_write_nibble_G101:
+                 ; .FSTART __lcd_write_nibble_G101
+000313 7fa0          andi  r26,0xf0
+000314 2bab          or    r26,r27
+000315 bba8          out   __lcd_port,r26          ;write
+000316 9ac2          sbi   __lcd_port,__lcd_enable ;EN=1
+000317 940e 02fe 	CALL __lcd_delay_G101
+000319 98c2          cbi   __lcd_port,__lcd_enable ;EN=0
+00031a 940e 02fe 	CALL __lcd_delay_G101
+00031c 9508      	RET
+                 ; .FEND
+                 __lcd_write_data:
+                 ; .FSTART __lcd_write_data
+00031d 93aa      	ST   -Y,R26
+00031e 98c1          cbi  __lcd_port,__lcd_rd 	  ;RD=0
+00031f b3a7          in    r26,__lcd_direction
+000320 6fa7          ori   r26,0xf0 | (1<<__lcd_rs) | (1<<__lcd_rd) | (1<<__lcd_enable) ;set as output
+000321 bba7          out   __lcd_direction,r26
+000322 b3b8          in    r27,__lcd_port
+000323 70bf          andi  r27,0xf
+000324 81a8          ld    r26,y
+000325 dfed      	RCALL __lcd_write_nibble_G101
+000326 81a8          ld    r26,y
+000327 95a2          swap  r26
+000328 dfea      	RCALL __lcd_write_nibble_G101
+000329 9ac1          sbi   __lcd_port,__lcd_rd     ;RD=1
+00032a 940c 03d0 	JMP  _0x2080001
+                 ; .FEND
+                 __lcd_read_nibble_G101:
+                 ; .FSTART __lcd_read_nibble_G101
+00032c 9ac2          sbi   __lcd_port,__lcd_enable ;EN=1
+00032d 940e 02fe 	CALL __lcd_delay_G101
+00032f b3e6          in    r30,__lcd_pin           ;read
+000330 98c2          cbi   __lcd_port,__lcd_enable ;EN=0
+000331 940e 02fe 	CALL __lcd_delay_G101
+000333 7fe0          andi  r30,0xf0
+000334 9508      	RET
+                 ; .FEND
+                 _lcd_read_byte0_G101:
+                 ; .FSTART _lcd_read_byte0_G101
+000335 940e 02fe 	CALL __lcd_delay_G101
+000337 dff4      	RCALL __lcd_read_nibble_G101
+000338 2fae          mov   r26,r30
+000339 dff2      	RCALL __lcd_read_nibble_G101
+00033a 98c1          cbi   __lcd_port,__lcd_rd     ;RD=0
+00033b 95e2          swap  r30
+00033c 2bea          or    r30,r26
+00033d 9508      	RET
+                 ; .FEND
+                 _lcd_gotoxy:
+                 ; .FSTART _lcd_gotoxy
+00033e 93aa      	ST   -Y,R26
+00033f 940e 0302 	CALL __lcd_ready
+000341 81e8      	LD   R30,Y
+000342 e0f0      	LDI  R31,0
+000343 5ae0      	SUBI R30,LOW(-__base_y_G101)
+000344 4ffd      	SBCI R31,HIGH(-__base_y_G101)
+000345 81e0      	LD   R30,Z
+000346 81a9      	LDD  R26,Y+1
+000347 0fae      	ADD  R26,R30
+000348 940e 031d 	CALL __lcd_write_data
+00034a 8059      	LDD  R5,Y+1
+00034b 8048      	LDD  R4,Y+0
+00034c 9622      	ADIW R28,2
+00034d 9508      	RET
+                 ; .FEND
+                 _lcd_clear:
+                 ; .FSTART _lcd_clear
+00034e 940e 0302 	CALL __lcd_ready
+000350 e0a2      	LDI  R26,LOW(2)
+000351 940e 031d 	CALL __lcd_write_data
+000353 940e 0302 	CALL __lcd_ready
+000355 e0ac      	LDI  R26,LOW(12)
+000356 940e 031d 	CALL __lcd_write_data
+000358 940e 0302 	CALL __lcd_ready
+00035a e0a1      	LDI  R26,LOW(1)
+00035b 940e 031d 	CALL __lcd_write_data
+00035d e0e0      	LDI  R30,LOW(0)
+00035e 2e4e      	MOV  R4,R30
+00035f 2e5e      	MOV  R5,R30
+000360 9508      	RET
+                 ; .FEND
+                 _lcd_putchar:
+                 ; .FSTART _lcd_putchar
+000361 93aa      	ST   -Y,R26
+000362 93ef          push r30
+000363 93ff          push r31
+000364 81a8          ld   r26,y
+000365 9468          set
+000366 30aa          cpi  r26,10
+000367 f019          breq __lcd_putchar1
+000368 94e8          clt
+000369 1457      	CP   R5,R7
+00036a f030      	BRLO _0x2020004
+                 	__lcd_putchar1:
+00036b 9443      	INC  R4
+00036c e0e0      	LDI  R30,LOW(0)
+00036d 93ea      	ST   -Y,R30
+00036e 2da4      	MOV  R26,R4
+00036f dfce      	RCALL _lcd_gotoxy
+000370 f036      	brts __lcd_putchar0
+                 _0x2020004:
+000371 9453      	INC  R5
+000372 df8f          rcall __lcd_ready
+000373 9ac0          sbi  __lcd_port,__lcd_rs ;RS=1
+000374 81a8      	LD   R26,Y
+000375 940e 031d 	CALL __lcd_write_data
+                 __lcd_putchar0:
+000377 91ff          pop  r31
+000378 91ef          pop  r30
+000379 940c 03d0 	JMP  _0x2080001
+                 ; .FEND
+                 _lcd_putsf:
+                 ; .FSTART _lcd_putsf
+00037b 93ba      	ST   -Y,R27
+00037c 93aa      	ST   -Y,R26
+00037d 931a      	ST   -Y,R17
+                 _0x2020008:
+00037e 81e9      	LDD  R30,Y+1
+00037f 81fa      	LDD  R31,Y+1+1
+000380 9631      	ADIW R30,1
+000381 83e9      	STD  Y+1,R30
+000382 83fa      	STD  Y+1+1,R31
+000383 9731      	SBIW R30,1
+000384 91e4      	LPM  R30,Z
+000385 2f1e      	MOV  R17,R30
+000386 30e0      	CPI  R30,0
+000387 f019      	BREQ _0x202000A
+000388 2fa1      	MOV  R26,R17
+000389 dfd7      	RCALL _lcd_putchar
+00038a cff3      	RJMP _0x2020008
+                 _0x202000A:
+00038b 8118      	LDD  R17,Y+0
+00038c 9623      	ADIW R28,3
+00038d 9508      	RET
+                 ; .FEND
+                 __long_delay_G101:
+                 ; .FSTART __long_delay_G101
+00038e 27aa          clr   r26
+00038f 27bb          clr   r27
+                 __long_delay0:
+000390 9711          sbiw  r26,1         ;2 cycles
+000391 f7f1          brne  __long_delay0 ;2 cycles
+000392 9508      	RET
+                 ; .FEND
+                 __lcd_init_write_G101:
+                 ; .FSTART __lcd_init_write_G101
+000393 93aa      	ST   -Y,R26
+000394 98c1          cbi  __lcd_port,__lcd_rd 	  ;RD=0
+000395 b3a7          in    r26,__lcd_direction
+000396 6fa7          ori   r26,0xf7                ;set as output
+000397 bba7          out   __lcd_direction,r26
+000398 b3b8          in    r27,__lcd_port
+000399 70bf          andi  r27,0xf
+00039a 81a8          ld    r26,y
+00039b 940e 0313 	CALL __lcd_write_nibble_G101
+00039d 9ac1          sbi   __lcd_port,__lcd_rd     ;RD=1
+00039e c031      	RJMP _0x2080001
+                 ; .FEND
+                 _lcd_init:
+                 ; .FSTART _lcd_init
+00039f 93aa      	ST   -Y,R26
+0003a0 98c2          cbi   __lcd_port,__lcd_enable ;EN=0
+0003a1 98c0          cbi   __lcd_port,__lcd_rs     ;RS=0
+0003a2 8078      	LDD  R7,Y+0
+0003a3 81e8      	LD   R30,Y
+0003a4 58e0      	SUBI R30,-LOW(128)
+                +
+0003a5 93e0 0262+STS __base_y_G101 + ( 2 ) , R30
+                 	__PUTB1MN __base_y_G101,2
+0003a7 81e8      	LD   R30,Y
+0003a8 54e0      	SUBI R30,-LOW(192)
+                +
+0003a9 93e0 0263+STS __base_y_G101 + ( 3 ) , R30
+                 	__PUTB1MN __base_y_G101,3
+0003ab 940e 03fa 	CALL SUBOPT_0x4
+0003ad 940e 03fa 	CALL SUBOPT_0x4
+0003af 940e 03fa 	CALL SUBOPT_0x4
+0003b1 dfdc      	RCALL __long_delay_G101
+0003b2 e2a0      	LDI  R26,LOW(32)
+0003b3 dfdf      	RCALL __lcd_init_write_G101
+0003b4 dfd9      	RCALL __long_delay_G101
+0003b5 e2a8      	LDI  R26,LOW(40)
+0003b6 940e 03ff 	CALL SUBOPT_0x5
+0003b8 e0a4      	LDI  R26,LOW(4)
+0003b9 940e 03ff 	CALL SUBOPT_0x5
+0003bb e8a5      	LDI  R26,LOW(133)
+0003bc 940e 03ff 	CALL SUBOPT_0x5
+0003be b3a7          in    r26,__lcd_direction
+0003bf 70af          andi  r26,0xf                 ;set as input
+0003c0 bba7          out   __lcd_direction,r26
+0003c1 9ac1          sbi   __lcd_port,__lcd_rd     ;RD=1
+0003c2 940e 0335 	CALL _lcd_read_byte0_G101
+0003c4 30e5      	CPI  R30,LOW(0x5)
+0003c5 f011      	BREQ _0x202000B
+0003c6 e0e0      	LDI  R30,LOW(0)
+0003c7 c008      	RJMP _0x2080001
+                 _0x202000B:
+0003c8 940e 0302 	CALL __lcd_ready
+0003ca e0a6      	LDI  R26,LOW(6)
+0003cb 940e 031d 	CALL __lcd_write_data
+0003cd 940e 034e 	CALL _lcd_clear
+0003cf e0e1      	LDI  R30,LOW(1)
+                 _0x2080001:
+0003d0 9621      	ADIW R28,1
+0003d1 9508      	RET
+                 ; .FEND
+                 
+                 	.CSEG
+                 
+                 	.CSEG
+                 
+                 	.DSEG
+                 __base_y_G101:
+000260           	.BYTE 0x4
+                 
+                 	.CSEG
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 18 TIMES, CODE SIZE REDUCTION:48 WORDS
+                 SUBOPT_0x0:
+0003d2 e0e0      	LDI  R30,LOW(0)
+0003d3 93ea      	ST   -Y,R30
+0003d4 e0a1      	LDI  R26,LOW(1)
+0003d5 940c 033e 	JMP  _lcd_gotoxy
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 9 TIMES, CODE SIZE REDUCTION:13 WORDS
+                 SUBOPT_0x1:
+0003d7 940e 037b 	CALL _lcd_putsf
+                +
+0003d9 e000     +LDI R16 , LOW ( 0 )
+0003da e010     +LDI R17 , HIGH ( 0 )
+                 	__GETWRN 16,17,0
+0003db 9508      	RET
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 18 TIMES, CODE SIZE REDUCTION:337 WORDS
+                 SUBOPT_0x2:
+0003dc 01f8      	MOVW R30,R16
+0003dd 01de      	MOVW R26,R28
+0003de 9654      	ADIW R26,20
+0003df 0fee      	LSL  R30
+0003e0 1fff      	ROL  R31
+0003e1 0fae      	ADD  R26,R30
+0003e2 1fbf      	ADC  R27,R31
+0003e3 91ec      	LD   R30,X
+0003e4 bbeb      	OUT  0x1B,R30
+0003e5 01f8      	MOVW R30,R16
+0003e6 01de      	MOVW R26,R28
+0003e7 0fee      	LSL  R30
+0003e8 1fff      	ROL  R31
+0003e9 0fae      	ADD  R26,R30
+0003ea 1fbf      	ADC  R27,R31
+0003eb 91ec      	LD   R30,X
+0003ec bbe2      	OUT  0x12,R30
+0003ed e6a4      	LDI  R26,LOW(100)
+0003ee e0b0      	LDI  R27,0
+0003ef 940c 0403 	JMP  _delay_ms
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:4 WORDS
+                 SUBOPT_0x3:
+0003f1 e0e3      	LDI  R30,LOW(3)
+0003f2 93ea      	ST   -Y,R30
+0003f3 e0a1      	LDI  R26,LOW(1)
+0003f4 940e 033e 	CALL _lcd_gotoxy
+                +
+0003f6 e2a9     +LDI R26 , LOW ( 2 * _0x0 + ( 155 ) )
+0003f7 e0b1     +LDI R27 , HIGH ( 2 * _0x0 + ( 155 ) )
+                 	__POINTW2FN _0x0,155
+0003f8 940c 037b 	JMP  _lcd_putsf
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:3 WORDS
+                 SUBOPT_0x4:
+0003fa 940e 038e 	CALL __long_delay_G101
+0003fc e3a0      	LDI  R26,LOW(48)
+0003fd 940c 0393 	JMP  __lcd_init_write_G101
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:1 WORDS
+                 SUBOPT_0x5:
+0003ff 940e 031d 	CALL __lcd_write_data
+000401 940c 038e 	JMP  __long_delay_G101
+                 
+                 
+                 	.CSEG
+                 _delay_ms:
+000403 9610      	adiw r26,0
+000404 f039      	breq __delay_ms1
+                 __delay_ms0:
+                +
+000405 ed80     +LDI R24 , LOW ( 0x7D0 )
+000406 e097     +LDI R25 , HIGH ( 0x7D0 )
+                +__DELAY_USW_LOOP :
+000407 9701     +SBIW R24 , 1
+000408 f7f1     +BRNE __DELAY_USW_LOOP
+                 	__DELAY_USW 0x7D0
+000409 95a8      	wdr
+00040a 9711      	sbiw r26,1
+00040b f7c9      	brne __delay_ms0
+                 __delay_ms1:
+00040c 9508      	ret
+                 
+                 __INITLOCB:
+                 __INITLOCW:
+00040d 0fac      	ADD  R26,R28
+00040e 1fbd      	ADC  R27,R29
+                 __INITLOC0:
+00040f 9005      	LPM  R0,Z+
+000410 920d      	ST   X+,R0
+000411 958a      	DEC  R24
+000412 f7e1      	BRNE __INITLOC0
+000413 9508      	RET
+                 
+                 ;END OF CODE MARKER
+                 __END_OF_CODE:
+
+
+RESOURCE USE INFORMATION
+------------------------
+
+Notice:
+The register and instruction counts are symbol table hit counts,
+and hence implicitly used resources are not counted, eg, the
+'lpm' instruction without operands implicitly uses r0 and z,
+none of which are counted.
+
+x,y,z are separate entities in the symbol table and are
+counted separately from r26..r31 here.
+
+.dseg memory usage only counts static data declared with .byte
+
+ATmega32 register use summary:
+r0 :   6 r1 :   1 r2 :   0 r3 :   0 r4 :   4 r5 :   4 r6 :   0 r7 :   2 
+r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 r13:   0 r14:   0 r15:   0 
+r16:  40 r17:  51 r18:   0 r19:   0 r20:   0 r21:   0 r22:   2 r23:   0 
+r24:  11 r25:   3 r26:  84 r27:  34 r28:   8 r29:   2 r30:  87 r31:  16 
+x  :   6 y  :  29 z  :  10 
+Registers used: 19 out of 35 (54.3%)
+
+ATmega32 instruction use summary:
+.lds  :   0 .lds.l:   0 .sts  :   0 .sts.l:   0 adc   :   3 add   :   4 
+adiw  :   6 and   :   0 andi  :   6 asr   :   0 bclr  :   0 bld   :   0 
+brbc  :   0 brbs  :   0 brcc  :   0 brcs  :   0 break :   0 breq  :   5 
+brge  :   9 brhc  :   0 brhs  :   0 brid  :   0 brie  :   0 brlo  :   1 
+brlt  :   0 brmi  :   9 brne  :   8 brpl  :   0 brsh  :   0 brtc  :   0 
+brts  :   1 brvc  :   0 brvs  :   0 bset  :   0 bst   :   0 call  :  90 
+cbi   :  10 cbr   :   0 clc   :   0 clh   :   0 cli   :   1 cln   :   0 
+clr   :   4 cls   :   0 clt   :   1 clv   :   0 clz   :   0 com   :   0 
+cp    :   1 cpc   :   9 cpi   :  12 cpse  :   0 dec   :   3 des   :   0 
+eor   :   0 fmul  :   0 fmuls :   0 fmulsu:   0 icall :   0 ijmp  :   0 
+in    :   8 inc   :   2 jmp   :  29 ld    :  11 ldd   :   7 ldi   : 116 
+lds   :   0 lpm   :  10 lsl   :   2 lsr   :   0 mov   :   6 movw  :   7 
+mul   :   0 muls  :   0 mulsu :   0 neg   :   0 nop   :   0 or    :   2 
+ori   :   2 out   :  17 pop   :   2 push  :   2 rcall :  14 ret   :  13 
+reti  :   0 rjmp  : 127 rol   :   2 ror   :   0 sbc   :   0 sbci  :  19 
+sbi   :   9 sbic  :  37 sbis  :  44 sbiw  :   8 sbr   :   0 sbrc  :   1 
+sbrs  :   0 sec   :   0 seh   :   0 sei   :   0 sen   :   0 ser   :   0 
+ses   :   0 set   :   1 sev   :   0 sez   :   0 sleep :   0 spm   :   0 
+st    :  16 std   :   2 sts   :   2 sub   :   0 subi  :  21 swap  :   2 
+tst   :   9 wdr   :   1 
+Instructions used: 52 out of 116 (44.8%)
+
+ATmega32 memory use summary [bytes]:
+Segment   Begin    End      Code   Data   Used    Size   Use%
+---------------------------------------------------------------
+[.cseg] 0x000000 0x000828   1708    380   2088   32768   6.4%
+[.dseg] 0x000060 0x000264      0      4      4    2048   0.2%
+[.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
+
+Assembly complete, 0 errors, 4 warnings

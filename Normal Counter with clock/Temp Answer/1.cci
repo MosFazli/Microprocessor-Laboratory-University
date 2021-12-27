@@ -1,0 +1,9 @@
+VERSION:3 SOURCE_TIMESTAMP:53919526
+NODE:I LEVEL:0 LINE:1 "E:\Programs\CodeVision\inc\mega32.h"
+NODE:I LEVEL:0 LINE:2 "E:\Programs\CodeVision\inc\stdio.h"
+NODE:I LEVEL:0 LINE:6 "E:\Programs\CodeVision\inc\lcd.h"
+NODE:V LEVEL:0 LINE:8 "str -> RAM:????"
+NODE:V LEVEL:0 LINE:9 "i -> R4,R5"
+NODE:V LEVEL:0 LINE:9 "j -> R6,R7"
+NODE:F LEVEL:0 LINE:11 "timer0_ovf_isr(void)"
+NODE:F LEVEL:0 LINE:18 "main(void)"
